@@ -260,9 +260,15 @@
     }
 
     /* — SKILLS TABLE — */
+    .section-wide {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
+
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 1.2rem;
     }
 
@@ -377,7 +383,8 @@
       .toc { padding: 0 1.2rem 2rem; }
       .card { padding: 1.4rem 1.2rem 1.3rem; }
       .card .visual iframe { height: 240px; }
-      .skills-grid { grid-template-columns: 1fr; }
+      .section-wide { padding: 0 1.2rem 3rem; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
       .gallery { grid-template-columns: 1fr; }
       .footer { padding: 2rem 1.2rem 3rem; }
     }
@@ -434,7 +441,7 @@
   </nav>
 
   <!-- ===== SKILLS & TOOLS ===== -->
-  <section class="section" id="skills">
+  <section class="section-wide" id="skills">
     <div class="section-label">Skills &amp; Tools</div>
     <div class="skills-grid">
 
