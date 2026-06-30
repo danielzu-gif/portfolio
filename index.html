@@ -66,6 +66,14 @@
       line-height: 1.7;
     }
 
+    .header .bio p {
+      margin-bottom: 1rem;
+    }
+
+    .header .bio p:last-child {
+      margin-bottom: 0;
+    }
+
     .contact-row {
       display: flex;
       flex-wrap: wrap;
@@ -85,6 +93,45 @@
     }
 
     .contact-row a:hover { color: var(--accent); }
+
+    /* — TABLE OF CONTENTS — */
+    .toc {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 0 1.5rem 3rem;
+    }
+
+    .toc-label {
+      font-family: var(--display);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+
+    .toc-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 1.6rem;
+    }
+
+    .toc-links a {
+      font-family: var(--display);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .toc-links a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
 
     /* — SECTION — */
     .section {
@@ -139,6 +186,17 @@
       line-height: 1.7;
     }
 
+    .card .card-body a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-light);
+      transition: color 0.2s;
+    }
+
+    .card .card-body a:hover {
+      color: var(--text);
+    }
+
     .card .card-result {
       font-size: 0.92rem;
       color: var(--text);
@@ -150,7 +208,7 @@
       font-weight: 600;
     }
 
-    /* Image placeholder inside cards */
+    /* Image/visual inside cards */
     .card .visual {
       width: 100%;
       border-radius: 3px;
@@ -163,6 +221,13 @@
     .card .visual img {
       width: 100%;
       height: auto;
+      display: block;
+    }
+
+    .card .visual iframe {
+      width: 100%;
+      height: 400px;
+      border: none;
       display: block;
     }
 
@@ -192,6 +257,85 @@
       padding: 0.25rem 0.6rem;
       border-radius: 3px;
       letter-spacing: 0.02em;
+    }
+
+    /* — SKILLS TABLE — */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .skill-category {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.4rem;
+    }
+
+    .skill-category h4 {
+      font-family: var(--display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.8rem;
+    }
+
+    .skill-category ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .skill-category li {
+      font-size: 0.92rem;
+      color: var(--text);
+      padding: 0.25rem 0;
+      border-bottom: 1px solid var(--tag-bg);
+    }
+
+    .skill-category li:last-child {
+      border-bottom: none;
+    }
+
+    /* — PHOTO GALLERY — */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .gallery-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .gallery-item .gallery-placeholder {
+      width: 100%;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--tag-bg);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-family: var(--display);
+    }
+
+    .gallery-item .caption {
+      padding: 0.8rem 1rem;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
     }
 
     /* — FOOTER — */
@@ -230,7 +374,11 @@
       .header { padding: 3rem 1.2rem 2rem; }
       .header h1 { font-size: 1.8rem; }
       .section { padding: 0 1.2rem 3rem; }
+      .toc { padding: 0 1.2rem 2rem; }
       .card { padding: 1.4rem 1.2rem 1.3rem; }
+      .card .visual iframe { height: 240px; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .gallery { grid-template-columns: 1fr; }
       .footer { padding: 2rem 1.2rem 3rem; }
     }
 
@@ -253,33 +401,197 @@
   <header class="header">
     <h1>Daniel Zhu</h1>
     <div class="subtitle">Mechanical Engineering · University of Michigan 2028</div>
-    <p class="bio">
-      Mechanical Engineering student at the University of Michigan with 3+ years of research experience 
-      and 1+ year of industry experience. <br>
-      
-      Practical background in CAD design, thermal and fluid systems, prototyping, and engineering analysis, 
-      with project experience in battery systems, energy harvesting, ML, and mechanical system optimization. <br>
-      
-      Skilled in CAD, CAE, FEA, CFD, and data-driven engineering tools, with interests in sustainable transportation, 
-      advanced manufacturing, electrification, and scalable mechanical and aerospace solutions.
-    </p>
+    <div class="bio">
+      <p>
+        Mechanical Engineering student at the University of Michigan with 3+ years of research experience
+        and 1+ year of industry experience.
+      </p>
+      <p>
+        Practical background in CAD design, thermal and fluid systems, prototyping, and engineering analysis,
+        with project experience in battery systems, energy harvesting, ML, and mechanical system optimization.
+      </p>
+      <p>
+        Skilled in CAD, CAE, FEA, CFD, and data-driven engineering tools, with interests in sustainable transportation,
+        advanced manufacturing, electrification, and scalable mechanical and aerospace solutions.
+      </p>
+    </div>
     <div class="contact-row">
       <a href="mailto:danielzu@umich.edu">danielzu@umich.edu</a>
       <a href="http://www.linkedin.com/in/danielzhu-me" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/danielzu-gif" target="_blank" rel="noopener">GitHub</a>
     </div>
   </header>
 
-  <!-- ===== PROJECTS ===== -->
-  <section class="section">
-    <div class="section-label">Projects</div>
+  <!-- ===== TABLE OF CONTENTS ===== -->
+  <nav class="toc">
+    <div class="toc-label">Jump to</div>
+    <div class="toc-links">
+      <a href="#skills">Skills &amp; Tools</a>
+      <a href="#projects">Research &amp; Projects</a>
+      <a href="#photos">Photos</a>
+      <a href="#github">GitHub Projects</a>
+    </div>
+  </nav>
 
-    <!-- Card 1: Mech Lab -->
+  <!-- ===== SKILLS & TOOLS ===== -->
+  <section class="section" id="skills">
+    <div class="section-label">Skills &amp; Tools</div>
+    <div class="skills-grid">
+
+      <div class="skill-category">
+        <h4>CAD</h4>
+        <ul>
+          <li>SolidWorks</li>
+          <li>AutoCAD</li>
+          <!-- Add or remove as needed -->
+          <li>[Other CAD tools]</li>
+        </ul>
+      </div>
+
+      <div class="skill-category">
+        <h4>Simulation &amp; Analysis</h4>
+        <ul>
+          <li>ANSYS (FEA/CFD)</li>
+          <li>COMSOL</li>
+          <!-- Add or remove as needed -->
+          <li>[Other sim tools]</li>
+        </ul>
+      </div>
+
+      <div class="skill-category">
+        <h4>Programming</h4>
+        <ul>
+          <li>Python</li>
+          <li>MATLAB</li>
+          <li>C/C++</li>
+          <!-- Add or remove as needed -->
+          <li>[Other languages]</li>
+        </ul>
+      </div>
+
+      <div class="skill-category">
+        <h4>Manufacturing &amp; Prototyping</h4>
+        <ul>
+          <li>3D Printing (FDM/SLA)</li>
+          <li>CNC Machining</li>
+          <li>GD&amp;T</li>
+          <!-- Add or remove as needed -->
+          <li>[Other methods]</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== RESEARCH & PROJECTS ===== -->
+  <section class="section" id="projects">
+    <div class="section-label">Research &amp; Projects</div>
+
+    <!-- Card 1: EV Battery Thermal Management -->
+    <div class="card">
+      <h3>EV Battery Thermal Management</h3>
+      <div class="card-role">Undergraduate researcher · University of Michigan</div>
+      <div class="visual">
+        <div class="visual-placeholder">[Simulation output, thermal map, or test setup photo here]</div>
+        <!-- Replace with: <img src="images/ev-battery.png" alt="EV battery thermal simulation"> -->
+      </div>
+      <div class="card-body">
+        [Describe the thermal problem you're working on, your specific role, the methods
+        and tools you used, and any results or contributions. 3–5 sentences.]
+      </div>
+      <div class="card-result">[Key outcome]</div>
+      <div class="tags">
+        <span class="tag">ANSYS</span>
+        <span class="tag">Thermal Analysis</span>
+        <span class="tag">[Add relevant tools]</span>
+      </div>
+    </div>
+
+    <!-- Card 2: NEECS -->
+    <div class="card">
+      <h3>NEECS — Acoustic Vibrations &amp; Machine Learning Lab</h3>
+      <div class="card-role">Undergraduate researcher · University of Michigan</div>
+      <div class="visual">
+        <div class="visual-placeholder">[Photo or diagram here]</div>
+        <!-- Replace with: <img src="images/neecs.png" alt="NEECS project"> -->
+      </div>
+      <div class="card-body">
+        [Describe the project — what it is, what you worked on, what methods/tools
+        you used, and what you delivered or discovered. 3–5 sentences.]
+      </div>
+      <div class="card-result">[Key outcome]</div>
+      <div class="tags">
+        <span class="tag">[Tool]</span>
+        <span class="tag">[Tool]</span>
+      </div>
+    </div>
+
+    <!-- Card 3: Current Energy Lab -->
+    <div class="card">
+      <h3>Offshore Marine &amp; Mechanical Engineering Lab</h3>
+      <div class="card-role">Undergraduate researcher · University of Michigan</div>
+      <div class="visual">
+        <div class="visual-placeholder">[Lab setup, data visualization, or results figure here]</div>
+        <!-- Replace with: <img src="images/energy-lab.png" alt="Energy lab research"> -->
+      </div>
+      <div class="card-body">
+        [Describe the research focus, your specific role, methods, and results.
+        3–5 sentences. If unpublished, keep it general enough to avoid scooping.]
+      </div>
+      <div class="card-result">[Key outcome]</div>
+      <div class="tags">
+        <span class="tag">MATLAB</span>
+        <span class="tag">Python</span>
+        <span class="tag">[Add relevant tools]</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PHOTO GALLERY ===== -->
+  <section class="section" id="photos">
+    <div class="section-label">Photos</div>
+    <div class="gallery">
+
+      <div class="gallery-item">
+        <div class="gallery-placeholder">[Photo 1]</div>
+        <!-- Replace with: <img src="images/photo1.jpg" alt="Description"> -->
+        <div class="caption">[Caption — what this photo shows, e.g. "Test rig assembly for thermal cycling"]</div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-placeholder">[Photo 2]</div>
+        <!-- Replace with: <img src="images/photo2.jpg" alt="Description"> -->
+        <div class="caption">[Caption]</div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-placeholder">[Photo 3]</div>
+        <!-- Replace with: <img src="images/photo3.jpg" alt="Description"> -->
+        <div class="caption">[Caption]</div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-placeholder">[Photo 4]</div>
+        <!-- Replace with: <img src="images/photo4.jpg" alt="Description"> -->
+        <div class="caption">[Caption]</div>
+      </div>
+
+      <!-- Copy and paste a gallery-item block to add more photos -->
+
+    </div>
+  </section>
+
+  <!-- ===== GITHUB PROJECTS ===== -->
+  <section class="section" id="github">
+    <div class="section-label">GitHub Projects</div>
+
+    <!-- Mech Lab -->
     <div class="card">
       <h3>Mech Lab — Automated Engineering Education Pipeline</h3>
-      <div class="card-role">Solo developer · 2026</div>
+      <div class="card-role">Solo developer · 2026 · <a href="https://github.com/danielzu-gif/[REPO_NAME]" target="_blank" rel="noopener">View on GitHub →</a></div>
       <div class="visual">
         <div class="visual-placeholder">[Screenshot or architecture diagram here]</div>
-        <!-- Replace the placeholder div above with: <img src="images/mechlab.png" alt="Mech Lab pipeline diagram"> -->
+        <!-- Replace with: <img src="images/mechlab.png" alt="Mech Lab pipeline diagram"> -->
       </div>
       <div class="card-body">
         Built a fully automated video production pipeline that turns a topic outline into a
@@ -299,12 +611,13 @@
       </div>
     </div>
 
-    <!-- Card 2: Internship Alert Bot -->
+    <!-- Internship Alert Bot -->
     <div class="card">
       <h3>Internship Alert Bot</h3>
-      <div class="card-role">Solo developer · 2026</div>
+      <div class="card-role">Solo developer · 2026 · <a href="https://github.com/danielzu-gif/[REPO_NAME]" target="_blank" rel="noopener">View on GitHub →</a></div>
       <div class="visual">
         <div class="visual-placeholder">[Screenshot of notification or architecture diagram here]</div>
+        <!-- Replace with: <img src="images/internship-bot.png" alt="Internship bot architecture"> -->
       </div>
       <div class="card-body">
         GitHub Actions bot that monitors community-maintained internship tracker repos for new
@@ -321,12 +634,13 @@
       </div>
     </div>
 
-    <!-- Card 3: Scholarship Automation -->
+    <!-- Scholarship Automation -->
     <div class="card">
       <h3>Scholarship Application System</h3>
-      <div class="card-role">Solo developer · 2026</div>
+      <div class="card-role">Solo developer · 2026 · <a href="https://github.com/danielzu-gif/[REPO_NAME]" target="_blank" rel="noopener">View on GitHub →</a></div>
       <div class="visual">
         <div class="visual-placeholder">[Pipeline diagram or sample output here]</div>
+        <!-- Replace with: <img src="images/scholarship.png" alt="Scholarship pipeline diagram"> -->
       </div>
       <div class="card-body">
         Five-stage pipeline that handles scholarship discovery, eligibility matching, and
@@ -343,81 +657,15 @@
         <span class="tag">NLP</span>
       </div>
     </div>
-
-    <!-- Card 4: CAD Work -->
-    <div class="card">
-      <h3>Contract CAD Engineering</h3>
-      <div class="card-role">Contract engineer · ongoing</div>
-      <div class="visual">
-        <div class="visual-placeholder">[CAD render or model screenshot here]</div>
-      </div>
-      <div class="card-body">
-        [Describe 1–2 representative projects here. What did the client need? What did you
-        model/design? What constraints did you work within? Keep it to 3–4 sentences.
-        If you're under NDA, describe the type of work without naming the client.]
-      </div>
-      <div class="card-result">[Key deliverable or metric — e.g., "12 assemblies delivered on schedule"]</div>
-      <div class="tags">
-        <span class="tag">SolidWorks</span>
-        <span class="tag">[CAD tool]</span>
-        <span class="tag">GD&amp;T</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== RESEARCH ===== -->
-  <section class="section">
-    <div class="section-label">Research</div>
-
-    <!-- Research 1 -->
-    <div class="card">
-      <h3>Acoustic Vibrations &amp; Machine Learning Lab</h3>
-      <div class="card-role">Undergraduate researcher · University of Michigan</div>
-      <div class="visual">
-        <div class="visual-placeholder">[Lab setup photo, data visualization, or results figure here]</div>
-      </div>
-      <div class="card-body">
-        [Describe the research focus, your specific role, the methods you used, and any
-        results or contributions. 3–5 sentences. If the work is unpublished, keep it
-        general enough to not scoop yourself.]
-      </div>
-      <div class="card-result">[Key outcome — e.g., "Improved classification accuracy by X%" or "Paper in preparation"]</div>
-      <div class="tags">
-        <span class="tag">MATLAB</span>
-        <span class="tag">Python</span>
-        <span class="tag">Machine Learning</span>
-        <span class="tag">[Add relevant tools]</span>
-      </div>
-    </div>
-
-    <!-- Research 2 -->
-    <div class="card">
-      <h3>EV Battery Thermal Management</h3>
-      <div class="card-role">Undergraduate researcher · University of Michigan</div>
-      <div class="visual">
-        <div class="visual-placeholder">[Simulation output, thermal map, or test setup photo here]</div>
-      </div>
-      <div class="card-body">
-        [Same approach — focus, your role, methods, results. What thermal problem are you
-        solving? What's the approach? What did you find or build?]
-      </div>
-      <div class="card-result">[Key outcome]</div>
-      <div class="tags">
-        <span class="tag">ANSYS</span>
-        <span class="tag">[Simulation tool]</span>
-        <span class="tag">Thermal Analysis</span>
-        <span class="tag">[Add relevant tools]</span>
-      </div>
-    </div>
   </section>
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <span>Daniel Zhu · 2026</span>
     <div class="footer-links">
-      <a href="https://github.com/[YOUR_GITHUB]" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://linkedin.com/in/[YOUR_LINKEDIN]" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="mailto:[YOUR_EMAIL]@umich.edu">[YOUR_EMAIL]@umich.edu</a>
+      <a href="https://github.com/danielzu-gif" target="_blank" rel="noopener">GitHub</a>
+      <a href="http://www.linkedin.com/in/danielzhu-me" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:danielzu@umich.edu">danielzu@umich.edu</a>
     </div>
   </footer>
 
