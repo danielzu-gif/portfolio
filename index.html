@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Daniel Zhu — Project Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #F5F4F0;
+      --surface: #FFFFFF;
+      --text: #1C1C1C;
+      --text-secondary: #555555;
+      --accent: #B8860B;
+      --accent-light: #D4A840;
+      --border: #E5E3DF;
+      --tag-bg: #ECEAE6;
+      --display: 'Space Grotesk', sans-serif;
+      --body: 'Source Sans 3', sans-serif;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* — HEADER — */
+    .header {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 5rem 1.5rem 3rem;
+    }
+
+    .header h1 {
+      font-family: var(--display);
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 0.6rem;
+    }
+
+    .header .subtitle {
+      font-family: var(--display);
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.01em;
+      margin-bottom: 1.2rem;
+    }
+
+    .header .bio {
+      color: var(--text-secondary);
+      font-size: 1.02rem;
+      max-width: 600px;
+      line-height: 1.7;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-top: 1.4rem;
+    }
+
+    .contact-row a {
+      font-family: var(--display);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1.5px solid var(--accent);
+      padding-bottom: 1px;
+      transition: color 0.2s;
+    }
+
+    .contact-row a:hover { color: var(--accent); }
+
+    /* — SECTION — */
+    .section {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    .section-label {
+      font-family: var(--display);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 1.8rem;
+    }
+
+    /* — PROJECT CARD — */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      padding: 2rem 2rem 1.8rem;
+      margin-bottom: 1.6rem;
+      transition: box-shadow 0.2s;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    .card h3 {
+      font-family: var(--display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.01em;
+    }
+
+    .card .card-role {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .card .card-body {
+      font-size: 0.97rem;
+      color: var(--text);
+      margin-bottom: 1.2rem;
+      line-height: 1.7;
+    }
+
+    .card .card-result {
+      font-size: 0.92rem;
+      color: var(--text);
+      background: var(--tag-bg);
+      display: inline-block;
+      padding: 0.35rem 0.75rem;
+      border-radius: 3px;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    /* Image placeholder inside cards */
+    .card .visual {
+      width: 100%;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      margin-bottom: 1.2rem;
+      overflow: hidden;
+      background: var(--tag-bg);
+    }
+
+    .card .visual img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .card .visual-placeholder {
+      width: 100%;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-family: var(--display);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .tag {
+      font-family: var(--display);
+      font-size: 0.72rem;
+      font-weight: 500;
+      background: var(--tag-bg);
+      color: var(--text-secondary);
+      padding: 0.25rem 0.6rem;
+      border-radius: 3px;
+      letter-spacing: 0.02em;
+    }
+
+    /* — FOOTER — */
+    .footer {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.2rem;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-family: var(--display);
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--accent); }
+
+    /* — RESPONSIVE — */
+    @media (max-width: 600px) {
+      .header { padding: 3rem 1.2rem 2rem; }
+      .header h1 { font-size: 1.8rem; }
+      .section { padding: 0 1.2rem 3rem; }
+      .card { padding: 1.4rem 1.2rem 1.3rem; }
+      .footer { padding: 2rem 1.2rem 3rem; }
+    }
+
+    /* — REDUCED MOTION — */
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* — FOCUS — */
+    a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <h1>Daniel Zhu</h1>
+    <div class="subtitle">Mechanical Engineering · University of Michigan '28</div>
+    <p class="bio">
+      First-generation engineering student from Queens, NY. I build things that move,
+      and write code to automate the parts that shouldn't need a human.
+      Interested in electrified propulsion, thermal systems, and making
+      engineering tools that don't suck.
+    </p>
+    <div class="contact-row">
+      <a href="mailto:[YOUR_EMAIL]@umich.edu">[YOUR_EMAIL]@umich.edu</a>
+      <a href="https://linkedin.com/in/[YOUR_LINKEDIN]" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/[YOUR_GITHUB]" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </header>
+
+  <!-- ===== PROJECTS ===== -->
+  <section class="section">
+    <div class="section-label">Projects</div>
+
+    <!-- Card 1: Mech Lab -->
+    <div class="card">
+      <h3>Mech Lab — Automated Engineering Education Pipeline</h3>
+      <div class="card-role">Solo developer · 2026</div>
+      <div class="visual">
+        <div class="visual-placeholder">[Screenshot or architecture diagram here]</div>
+        <!-- Replace the placeholder div above with: <img src="images/mechlab.png" alt="Mech Lab pipeline diagram"> -->
+      </div>
+      <div class="card-body">
+        Built a fully automated video production pipeline that turns a topic outline into a
+        publish-ready YouTube lecture — scripting, narration, animation, and upload with no
+        manual handoff between stages. The system generates Claude API scripts, synthesizes
+        narration through ElevenLabs, renders synchronized Manim animations using a
+        beat-structured timing engine, and assembles everything via FFmpeg.
+        25 episodes covering statics and solid mechanics.
+      </div>
+      <div class="card-result">25 episodes generated · end-to-end automation from topic → YouTube</div>
+      <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">Claude API</span>
+        <span class="tag">ElevenLabs</span>
+        <span class="tag">Manim</span>
+        <span class="tag">FFmpeg</span>
+      </div>
+    </div>
+
+    <!-- Card 2: Internship Alert Bot -->
+    <div class="card">
+      <h3>Internship Alert Bot</h3>
+      <div class="card-role">Solo developer · 2026</div>
+      <div class="visual">
+        <div class="visual-placeholder">[Screenshot of notification or architecture diagram here]</div>
+      </div>
+      <div class="card-body">
+        GitHub Actions bot that monitors community-maintained internship tracker repos for new
+        mechanical engineering postings and pushes phone notifications via ntfy.sh within minutes.
+        Solved a state persistence bug where cache expiry wiped the seen-postings log by committing
+        state directly back to the repo through git.
+      </div>
+      <div class="card-result">Catches new postings within minutes of being added</div>
+      <div class="tags">
+        <span class="tag">GitHub Actions</span>
+        <span class="tag">Python</span>
+        <span class="tag">ntfy.sh</span>
+        <span class="tag">CI/CD</span>
+      </div>
+    </div>
+
+    <!-- Card 3: Scholarship Automation -->
+    <div class="card">
+      <h3>Scholarship Application System</h3>
+      <div class="card-role">Solo developer · 2026</div>
+      <div class="visual">
+        <div class="visual-placeholder">[Pipeline diagram or sample output here]</div>
+      </div>
+      <div class="card-body">
+        Five-stage pipeline that handles scholarship discovery, eligibility matching, and
+        essay drafting — with a hard constraint that every essay gets personally revised
+        before submission. Uses a YAML profile and custom essay style guide to generate
+        drafts that sound like me, not like a language model. Built to cut the hours of
+        repetitive searching and formatting without cutting the human out of the writing.
+      </div>
+      <div class="card-result">Discovery → eligibility → draft → human review → monitor</div>
+      <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">Claude API</span>
+        <span class="tag">YAML</span>
+        <span class="tag">NLP</span>
+      </div>
+    </div>
+
+    <!-- Card 4: CAD Work -->
+    <div class="card">
+      <h3>Contract CAD Engineering</h3>
+      <div class="card-role">Contract engineer · ongoing</div>
+      <div class="visual">
+        <div class="visual-placeholder">[CAD render or model screenshot here]</div>
+      </div>
+      <div class="card-body">
+        [Describe 1–2 representative projects here. What did the client need? What did you
+        model/design? What constraints did you work within? Keep it to 3–4 sentences.
+        If you're under NDA, describe the type of work without naming the client.]
+      </div>
+      <div class="card-result">[Key deliverable or metric — e.g., "12 assemblies delivered on schedule"]</div>
+      <div class="tags">
+        <span class="tag">SolidWorks</span>
+        <span class="tag">[CAD tool]</span>
+        <span class="tag">GD&amp;T</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RESEARCH ===== -->
+  <section class="section">
+    <div class="section-label">Research</div>
+
+    <!-- Research 1 -->
+    <div class="card">
+      <h3>Acoustic Vibrations &amp; Machine Learning Lab</h3>
+      <div class="card-role">Undergraduate researcher · University of Michigan</div>
+      <div class="visual">
+        <div class="visual-placeholder">[Lab setup photo, data visualization, or results figure here]</div>
+      </div>
+      <div class="card-body">
+        [Describe the research focus, your specific role, the methods you used, and any
+        results or contributions. 3–5 sentences. If the work is unpublished, keep it
+        general enough to not scoop yourself.]
+      </div>
+      <div class="card-result">[Key outcome — e.g., "Improved classification accuracy by X%" or "Paper in preparation"]</div>
+      <div class="tags">
+        <span class="tag">MATLAB</span>
+        <span class="tag">Python</span>
+        <span class="tag">Machine Learning</span>
+        <span class="tag">[Add relevant tools]</span>
+      </div>
+    </div>
+
+    <!-- Research 2 -->
+    <div class="card">
+      <h3>EV Battery Thermal Management</h3>
+      <div class="card-role">Undergraduate researcher · University of Michigan</div>
+      <div class="visual">
+        <div class="visual-placeholder">[Simulation output, thermal map, or test setup photo here]</div>
+      </div>
+      <div class="card-body">
+        [Same approach — focus, your role, methods, results. What thermal problem are you
+        solving? What's the approach? What did you find or build?]
+      </div>
+      <div class="card-result">[Key outcome]</div>
+      <div class="tags">
+        <span class="tag">ANSYS</span>
+        <span class="tag">[Simulation tool]</span>
+        <span class="tag">Thermal Analysis</span>
+        <span class="tag">[Add relevant tools]</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <span>Daniel Zhu · 2026</span>
+    <div class="footer-links">
+      <a href="https://github.com/[YOUR_GITHUB]" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/[YOUR_LINKEDIN]" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:[YOUR_EMAIL]@umich.edu">[YOUR_EMAIL]@umich.edu</a>
+    </div>
+  </footer>
+
+</body>
+</html>
