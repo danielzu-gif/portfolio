@@ -208,7 +208,7 @@
       font-weight: 600;
     }
 
-    /* Image/visual inside cards */
+    /* Image/visual inside cards — supports multiple stacked images and/or videos */
     .card .visual {
       width: 100%;
       border-radius: 3px;
@@ -216,9 +216,18 @@
       margin-bottom: 1.2rem;
       overflow: hidden;
       background: var(--tag-bg);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .card .visual img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .card .visual video {
       width: 100%;
       height: auto;
       display: block;
@@ -320,6 +329,12 @@
     }
 
     .gallery-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .gallery-item video {
       width: 100%;
       height: auto;
       display: block;
@@ -435,8 +450,8 @@
     <div class="toc-links">
       <a href="#skills">Skills &amp; Tools</a>
       <a href="#projects">Research &amp; Projects</a>
-      <a href="#photos">Photos</a>
-      <a href="#github">GitHub Projects</a>
+      <a href="#photos">Additional Photos</a>
+      <a href="#github">Personal Projects</a>
     </div>
   </nav>
 
@@ -496,7 +511,13 @@
       <div class="card-role">Undergraduate researcher · University of Michigan</div>
       <div class="visual">
         <div class="visual-placeholder">[Simulation output, thermal map, or test setup photo here]</div>
-        <!-- Replace with: <img src="images/ev-battery.png" alt="EV battery thermal simulation"> -->
+        <!-- Delete the placeholder line above and add any mix of images/videos, e.g.:
+        <img src="images/ev-battery-1.png" alt="Cooling jacket CAD render">
+        <img src="images/ev-battery-2.png" alt="Thermal simulation heat map">
+        <video controls>
+          <source src="images/ev-battery-test.mp4" type="video/mp4">
+        </video>
+        -->
       </div>
       <div class="card-body">
         [Describe the thermal problem you're working on, your specific role, the methods
@@ -516,7 +537,13 @@
       <div class="card-role">Undergraduate researcher · University of Michigan</div>
       <div class="visual">
         <div class="visual-placeholder">[Photo or diagram here]</div>
-        <!-- Replace with: <img src="images/neecs.png" alt="NEECS project"> -->
+        <!-- Delete the placeholder line above and add any mix of images/videos, e.g.:
+        <img src="images/neecs-1.png" alt="Lab setup">
+        <img src="images/neecs-2.png" alt="Data visualization">
+        <video controls>
+          <source src="images/neecs-demo.mp4" type="video/mp4">
+        </video>
+        -->
       </div>
       <div class="card-body">
         [Describe the project — what it is, what you worked on, what methods/tools
@@ -535,7 +562,13 @@
       <div class="card-role">Undergraduate researcher · University of Michigan</div>
       <div class="visual">
         <div class="visual-placeholder">[Lab setup, data visualization, or results figure here]</div>
-        <!-- Replace with: <img src="images/energy-lab.png" alt="Energy lab research"> -->
+        <!-- Delete the placeholder line above and add any mix of images/videos, e.g.:
+        <img src="images/energy-lab-1.png" alt="Test rig">
+        <img src="images/energy-lab-2.png" alt="Results figure">
+        <video controls>
+          <source src="images/energy-lab-demo.mp4" type="video/mp4">
+        </video>
+        -->
       </div>
       <div class="card-body">
         [Describe the research focus, your specific role, methods, and results.
@@ -550,9 +583,9 @@
     </div>
   </section>
 
-  <!-- ===== PHOTO GALLERY ===== -->
+  <!-- ===== ADDITIONAL PHOTOS ===== -->
   <section class="section" id="photos">
-    <div class="section-label">Photos</div>
+    <div class="section-label">Additional Photos</div>
     <div class="gallery">
 
       <div class="gallery-item">
@@ -586,12 +619,12 @@
 
   <!-- ===== GITHUB PROJECTS ===== -->
   <section class="section" id="github">
-    <div class="section-label">GitHub Projects</div>
+    <div class="section-label">Personal Projects</div>
 
     <!-- Mech Lab -->
     <div class="card" id="mechlab">
       <h3>Mech Lab — Automated Engineering Education Pipeline</h3>
-      <div class="card-role">Solo developer · 2026 · <a href="https://github.com/danielzu-gif/[REPO_NAME]" target="_blank" rel="noopener">View on GitHub →</a></div>
+      <div class="card-role">Solo developer · 2026</div>
       <div class="visual">
         <img src="images/mechlab-diagram.svg" alt="Mech Lab pipeline architecture diagram">
       </div>
@@ -616,7 +649,7 @@
     <!-- Internship Alert Bot -->
     <div class="card" id="internship-bot">
       <h3>Internship Alert Bot</h3>
-      <div class="card-role">Solo developer · 2026 · <a href="https://github.com/danielzu-gif/[REPO_NAME]" target="_blank" rel="noopener">View on GitHub →</a></div>
+      <div class="card-role">Solo developer · 2026</div>
       <div class="visual">
         <img src="images/internship-bot-diagram.svg" alt="Internship Alert Bot architecture diagram">
       </div>
@@ -637,7 +670,7 @@
     <!-- Scholarship Automation -->
     <div class="card" id="scholarship">
       <h3>Scholarship Application System</h3>
-      <div class="card-role">Solo developer · 2026 · <a href="https://github.com/danielzu-gif/[REPO_NAME]" target="_blank" rel="noopener">View on GitHub →</a></div>
+      <div class="card-role">Solo developer · 2026</div>
       <div class="visual">
         <img src="images/scholarship-system-diagram.svg?v=2" alt="Scholarship application system pipeline diagram">
       </div>
