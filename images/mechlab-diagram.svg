@@ -1,0 +1,102 @@
+<svg viewBox="0 0 1000 340" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Mech Lab automated video pipeline</title>
+<desc>Eight-stage pipeline: topic outline, script generation via Claude API, narration via ElevenLabs, beat timing extraction, animation render via Manim, QA scrubber, FFmpeg assembly, and upload to YouTube.</desc>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M0,0 L10,5 L0,10 z" fill="#B8860B"/>
+</marker>
+</defs>
+<style>
+.title{font-family:'Space Grotesk','Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:700;fill:#1C1C1C;}
+.sub{font-family:'Source Sans 3','Helvetica Neue',Arial,sans-serif;font-size:11.5px;fill:#555555;}
+.badge{font-family:'Space Grotesk','Helvetica Neue',Arial,sans-serif;font-size:11px;font-weight:700;fill:#FFFFFF;}
+.annot{font-family:'Source Sans 3','Helvetica Neue',Arial,sans-serif;font-size:11px;font-style:italic;fill:#B8860B;}
+</style>
+
+<line x1="240" y1="80" x2="270" y2="80" stroke="#B8860B" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="470" y1="80" x2="500" y2="80" stroke="#B8860B" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="700" y1="80" x2="730" y2="80" stroke="#B8860B" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="830" y1="130" x2="830" y2="210" stroke="#B8860B" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="730" y1="260" x2="700" y2="260" stroke="#B8860B" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="500" y1="260" x2="470" y2="260" stroke="#B8860B" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="270" y1="260" x2="240" y2="260" stroke="#B8860B" stroke-width="2" marker-end="url(#arrow)"/>
+<text class="annot" x="805" y="172" text-anchor="end">Narration-First Pipeline</text>
+
+<g>
+<rect x="40" y="30" width="200" height="100" rx="10" fill="#FFFFFF" stroke="#E5E3DF" stroke-width="1.5"/>
+<circle cx="58" cy="46" r="10" fill="#B8860B"/>
+<text class="badge" x="58" y="46" text-anchor="middle" dominant-baseline="central">1</text>
+<text class="title" x="140" y="60" text-anchor="middle">Topic Outline</text>
+<text class="sub" x="140" y="88" text-anchor="middle">Episode Topic + Number</text>
+<rect x="56" y="112" width="168" height="4" rx="2" fill="#B8860B"/>
+</g>
+
+<g>
+<rect x="270" y="30" width="200" height="100" rx="10" fill="#FFFFFF" stroke="#E5E3DF" stroke-width="1.5"/>
+<circle cx="288" cy="46" r="10" fill="#B8860B"/>
+<text class="badge" x="288" y="46" text-anchor="middle" dominant-baseline="central">2</text>
+<text class="title" x="370" y="60" text-anchor="middle">Script Generation</text>
+<text class="sub" x="370" y="84" text-anchor="middle">Claude API —</text>
+<text class="sub" x="370" y="100" text-anchor="middle">Beat-Structured Script</text>
+<rect x="286" y="112" width="168" height="4" rx="2" fill="#B8860B"/>
+</g>
+
+<g>
+<rect x="500" y="30" width="200" height="100" rx="10" fill="#FFFFFF" stroke="#E5E3DF" stroke-width="1.5"/>
+<circle cx="518" cy="46" r="10" fill="#B8860B"/>
+<text class="badge" x="518" y="46" text-anchor="middle" dominant-baseline="central">3</text>
+<text class="title" x="600" y="60" text-anchor="middle">Narration</text>
+<text class="sub" x="600" y="84" text-anchor="middle">ElevenLabs —</text>
+<text class="sub" x="600" y="100" text-anchor="middle">Narrator "Mike"</text>
+<rect x="516" y="112" width="168" height="4" rx="2" fill="#B8860B"/>
+</g>
+
+<g>
+<rect x="730" y="30" width="200" height="100" rx="10" fill="#FFFFFF" stroke="#E5E3DF" stroke-width="1.5"/>
+<circle cx="748" cy="46" r="10" fill="#B8860B"/>
+<text class="badge" x="748" y="46" text-anchor="middle" dominant-baseline="central">4</text>
+<text class="title" x="830" y="60" text-anchor="middle">Timing Extraction</text>
+<text class="sub" x="830" y="88" text-anchor="middle">Per-Beat timings.json</text>
+<rect x="746" y="112" width="168" height="4" rx="2" fill="#B8860B"/>
+</g>
+
+<g>
+<rect x="730" y="210" width="200" height="100" rx="10" fill="#FFFFFF" stroke="#E5E3DF" stroke-width="1.5"/>
+<circle cx="748" cy="226" r="10" fill="#B8860B"/>
+<text class="badge" x="748" y="226" text-anchor="middle" dominant-baseline="central">5</text>
+<text class="title" x="830" y="240" text-anchor="middle">Animation Render</text>
+<text class="sub" x="830" y="264" text-anchor="middle">Manim — SyncScene,</text>
+<text class="sub" x="830" y="280" text-anchor="middle">Beat-Synced</text>
+<rect x="746" y="292" width="168" height="4" rx="2" fill="#B8860B"/>
+</g>
+
+<g>
+<rect x="500" y="210" width="200" height="100" rx="10" fill="#FFFFFF" stroke="#E5E3DF" stroke-width="1.5"/>
+<circle cx="518" cy="226" r="10" fill="#B8860B"/>
+<text class="badge" x="518" y="226" text-anchor="middle" dominant-baseline="central">6</text>
+<text class="title" x="600" y="240" text-anchor="middle">QA Scrubber</text>
+<text class="sub" x="600" y="264" text-anchor="middle">Flags Stray</text>
+<text class="sub" x="600" y="280" text-anchor="middle">self.wait() Calls</text>
+<rect x="516" y="292" width="168" height="4" rx="2" fill="#B8860B"/>
+</g>
+
+<g>
+<rect x="270" y="210" width="200" height="100" rx="10" fill="#FFFFFF" stroke="#E5E3DF" stroke-width="1.5"/>
+<circle cx="288" cy="226" r="10" fill="#B8860B"/>
+<text class="badge" x="288" y="226" text-anchor="middle" dominant-baseline="central">7</text>
+<text class="title" x="370" y="240" text-anchor="middle">Assembly</text>
+<text class="sub" x="370" y="264" text-anchor="middle">FFmpeg via</text>
+<text class="sub" x="370" y="280" text-anchor="middle">subprocess.Popen</text>
+<rect x="286" y="292" width="168" height="4" rx="2" fill="#B8860B"/>
+</g>
+
+<g>
+<rect x="40" y="210" width="200" height="100" rx="10" fill="#FFFFFF" stroke="#E5E3DF" stroke-width="1.5"/>
+<circle cx="58" cy="226" r="10" fill="#B8860B"/>
+<text class="badge" x="58" y="226" text-anchor="middle" dominant-baseline="central">8</text>
+<text class="title" x="140" y="240" text-anchor="middle">Upload</text>
+<text class="sub" x="140" y="264" text-anchor="middle">YouTube Data API —</text>
+<text class="sub" x="140" y="280" text-anchor="middle">Private Draft</text>
+<rect x="56" y="292" width="168" height="4" rx="2" fill="#B8860B"/>
+</g>
+</svg>
