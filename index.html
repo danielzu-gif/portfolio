@@ -1102,45 +1102,146 @@
      and paste the result over this whole block (from LAYOUT = { to };).
      ===================================================================== */
   let LAYOUT = {
-    "ev-battery": [
-      { src: "images/ev-battery-poster.jpg", cap: "Research poster — External Direct Liquid Cooling of Lithium-ion Batteries", size: "full", pdf: "images/ev-battery-poster.pdf" },
-      { src: "images/ev-battery-experimental-setup-photo.jpg", cap: "Battery cooling test bench: pressure valve, chiller, flow meter, battery tester, and DAQ", size: "half" },
-      { src: "images/ev-battery-discharge-temperature-comparison.png", cap: "Battery temperature comparison across air, helical, and hollow cooling at 1.5C and 2C discharge", size: "half" },
-      { src: "images/ev-battery-helical-jacket-cad.png", cap: "CAD rendering of the helical coolant jacket", size: "third" },
-      { src: "images/ev-battery-hollow-jacket-cad.png", cap: "CAD rendering of the hollow coolant jacket", size: "third" },
-      { src: "images/ev-battery-1c-discharge-profile.png", cap: "Current and voltage profile during 1C discharge", size: "third" },
-      { src: "images/ev-battery-radial-temp-distribution.png", cap: "Simulated radial temperature distribution: air, hollow jacket, and helical jacket cooling", size: "full" }
-    ],
-    "neecs": [
-      { src: "images/neecs-pipeline-diagram.svg", cap: "Acoustic vibration ML pipeline", size: "full" },
-      { src: "images/neecs-test-rig-photo.png", cap: "Aluminum tube test rig with mounted sensors and bungee supports", size: "half" },
-      { src: "images/neecs-apparatus-diagram.png", cap: "Tube apparatus: probe points, speaker, and bungee support points", size: "half" },
-      { src: "images/neecs-fft-vs-standard-tube.png", cap: "Normalized FFT across six sensors vs. a standard unmodified tube", size: "half" },
-      { src: "images/neecs-fft-vs-comsol-models.png", cap: "Normalized FFT vs. multiple COMSOL simulation models", size: "half" }
-    ],
-    "offshore": [
-      { src: "images/offshore-power-vs-flowspeed.png", cap: "Normalized power output vs. flow speed for 1–4 cylinder arrays", size: "full" },
-      { src: "images/offshore-mesh-diagram.png", cap: "CFD overset mesh: component mesh, background mesh, wall and overset boundaries", size: "half" },
-      { src: "images/offshore-two-cylinder-mesh.png", cap: "Two-cylinder overset mesh with flow field visualization", size: "half" },
-      { src: "images/offshore-cfd-simulation.mp4", cap: "CFD simulation", size: "third" },
-      { src: "images/offshore-cylinder-motion.mp4", cap: "Cylinder motion", size: "third" },
-      { src: "images/offshore-physical-test.mp4", cap: "Physical test", size: "third" }
-    ],
-    "gallery": [
-      { src: "images/rover-cad-render.png", cap: "CAD render of a wheeled rover with a pincer gripper arm", size: "third" },
-      { src: "images/rover-build-photo-1.jpg", cap: "Assembled rover with gripper arm", size: "third" },
-      { src: "images/rover-build-photo-2.jpg", cap: "Close-up of the pincer gripper mechanism", size: "third" },
-      { src: "images/battery-module-holder-cad.png", cap: "Battery module holder with hinged lid and cylindrical cell sockets", size: "half" }
-    ],
-    "mechlab": [
-      { src: "images/mechlab-diagram.svg", cap: "Mech Lab pipeline architecture", size: "full" }
-    ],
-    "internship-bot": [
-      { src: "images/internship-bot-diagram.svg", cap: "Internship Alert Bot architecture", size: "full" }
-    ],
-    "scholarship": [
-      { src: "images/scholarship-system-diagram.svg", cap: "Scholarship application system pipeline", size: "full" }
-    ]
+      "ev-battery": [
+          {
+              "src": "images/ev-battery-poster.jpg",
+              "cap": "Research poster — External Direct Liquid Cooling of Lithium-ion Batteries",
+              "size": "full",
+              "pdf": "images/ev-battery-poster.pdf"
+          },
+          {
+              "src": "images/ev-battery-experimental-setup-photo.jpg",
+              "cap": "Battery cooling test bench: pressure valve, chiller, flow meter, battery tester, and DAQ",
+              "size": "half"
+          },
+          {
+              "src": "images/ev-battery-discharge-temperature-comparison.png",
+              "cap": "Battery temperature comparison across air, helical, and hollow cooling at 1.5C and 2C discharge",
+              "size": "half"
+          },
+          {
+              "src": "images/ev-battery-helical-jacket-cad.png",
+              "cap": "CAD rendering of the helical coolant jacket",
+              "size": "third"
+          },
+          {
+              "src": "images/ev-battery-hollow-jacket-cad.png",
+              "cap": "CAD rendering of the hollow coolant jacket",
+              "size": "third"
+          },
+          {
+              "src": "images/ev-battery-1c-discharge-profile.png",
+              "cap": "Current and voltage profile during 1C discharge",
+              "size": "third"
+          },
+          {
+              "src": "images/ev-battery-radial-temp-distribution.png",
+              "cap": "Simulated radial temperature distribution: air, hollow jacket, and helical jacket cooling",
+              "size": "full"
+          }
+      ],
+      "neecs": [
+          {
+              "src": "images/neecs-pipeline-diagram.svg",
+              "cap": "Acoustic vibration ML pipeline",
+              "size": "full"
+          },
+          {
+              "src": "images/neecs-test-rig-photo.png",
+              "cap": "Aluminum tube test rig with mounted sensors and bungee supports",
+              "size": "half"
+          },
+          {
+              "src": "images/neecs-apparatus-diagram.png",
+              "cap": "Tube apparatus: probe points, speaker, and bungee support points",
+              "size": "half"
+          },
+          {
+              "src": "images/neecs-fft-vs-standard-tube.png",
+              "cap": "Normalized FFT across six sensors vs. a standard unmodified tube",
+              "size": "half"
+          },
+          {
+              "src": "images/neecs-fft-vs-comsol-models.png",
+              "cap": "Normalized FFT vs. multiple COMSOL simulation models",
+              "size": "half"
+          }
+      ],
+      "offshore": [
+          {
+              "src": "images/offshore-mesh-diagram.png",
+              "cap": "CFD overset mesh: component mesh, background mesh, wall and overset boundaries",
+              "size": "half"
+          },
+          {
+              "src": "images/offshore-two-cylinder-mesh.png",
+              "cap": "Two-cylinder overset mesh with flow field visualization",
+              "size": "half"
+          },
+          {
+              "src": "images/offshore-cfd-simulation.mp4",
+              "cap": "CFD simulation",
+              "size": "third"
+          },
+          {
+              "src": "images/offshore-cylinder-motion.mp4",
+              "cap": "Cylinder motion",
+              "size": "third"
+          },
+          {
+              "src": "images/offshore-power-vs-flowspeed.png",
+              "cap": "Normalized power output vs. flow speed for 1–4 cylinder arrays",
+              "size": "full"
+          },
+          {
+              "src": "images/offshore-physical-test.mp4",
+              "cap": "Physical test",
+              "size": "third"
+          }
+      ],
+      "gallery": [
+          {
+              "src": "images/rover-cad-render.png",
+              "cap": "CAD render of a wheeled rover with a pincer gripper arm",
+              "size": "third"
+          },
+          {
+              "src": "images/rover-build-photo-1.jpg",
+              "cap": "Assembled rover with gripper arm",
+              "size": "third"
+          },
+          {
+              "src": "images/rover-build-photo-2.jpg",
+              "cap": "Close-up of the pincer gripper mechanism",
+              "size": "third"
+          },
+          {
+              "src": "images/battery-module-holder-cad.png",
+              "cap": "Battery module holder with hinged lid and cylindrical cell sockets",
+              "size": "half"
+          }
+      ],
+      "mechlab": [
+          {
+              "src": "images/mechlab-diagram.svg",
+              "cap": "Mech Lab pipeline architecture",
+              "size": "full"
+          }
+      ],
+      "internship-bot": [
+          {
+              "src": "images/internship-bot-diagram.svg",
+              "cap": "Internship Alert Bot architecture",
+              "size": "full"
+          }
+      ],
+      "scholarship": [
+          {
+              "src": "images/scholarship-system-diagram.svg",
+              "cap": "Scholarship application system pipeline",
+              "size": "full"
+          }
+      ]
   };
 
   /* Files available in the "Add media" picker. Add new filenames here (or
