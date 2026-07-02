@@ -66,13 +66,8 @@
       line-height: 1.7;
     }
 
-    .header .bio p {
-      margin-bottom: 1rem;
-    }
-
-    .header .bio p:last-child {
-      margin-bottom: 0;
-    }
+    .header .bio p { margin-bottom: 1rem; }
+    .header .bio p:last-child { margin-bottom: 0; }
 
     .contact-row {
       display: flex;
@@ -128,10 +123,7 @@
       transition: color 0.2s, border-color 0.2s;
     }
 
-    .toc-links a:hover {
-      color: var(--accent);
-      border-color: var(--accent);
-    }
+    .toc-links a:hover { color: var(--accent); border-color: var(--accent); }
 
     /* — SECTION — */
     .section {
@@ -161,9 +153,7 @@
       transition: box-shadow 0.2s;
     }
 
-    .card:hover {
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    }
+    .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
 
     .card h3 {
       font-family: var(--display);
@@ -187,9 +177,7 @@
       transition: color 0.2s;
     }
 
-    .card .card-role a:hover {
-      color: var(--text);
-    }
+    .card .card-role a:hover { color: var(--text); }
 
     .card .card-body {
       font-size: 0.97rem;
@@ -205,9 +193,7 @@
       transition: color 0.2s;
     }
 
-    .card .card-body a:hover {
-      color: var(--text);
-    }
+    .card .card-body a:hover { color: var(--text); }
 
     .card .card-result {
       font-size: 0.92rem;
@@ -220,49 +206,129 @@
       font-weight: 600;
     }
 
-    /* Image/visual inside cards — supports multiple stacked images and/or videos */
-    .card .visual {
-      width: 100%;
-      border-radius: 3px;
-      border: 1px solid var(--border);
+    /* ===================================================================
+       MEDIA GRID — replaces the old vertical image stack.
+       Items are laid out on a 6-column grid:
+         full  = spans all 6 columns, whole image visible (no cropping)
+         half  = spans 3 columns, fixed-height thumbnail
+         third = spans 2 columns, fixed-height thumbnail
+       Every item opens full-size in the lightbox on click.
+       =================================================================== */
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-auto-flow: dense;
+      gap: 6px;
       margin-bottom: 1.2rem;
+    }
+
+    .media-item {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 3px;
       overflow: hidden;
       background: var(--tag-bg);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      cursor: zoom-in;
+      transition: box-shadow 0.2s, transform 0.15s;
     }
 
-    .card .visual img {
+    .media-item:hover { box-shadow: 0 3px 14px rgba(0,0,0,0.12); }
+    .media-item:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .media-item.size-full  { grid-column: span 6; }
+    .media-item.size-half  { grid-column: span 3; }
+    .media-item.size-third { grid-column: span 2; }
+
+    /* full-width items show the entire image, letterboxed if needed */
+    .media-item.size-full img,
+    .media-item.size-full video {
       width: 100%;
-      max-height: 420px;
-      object-fit: cover;
+      max-height: 480px;
+      object-fit: contain;
       display: block;
+      background: var(--tag-bg);
     }
 
-    .card .visual video {
-      width: 100%;
-      max-height: 420px;
-      object-fit: cover;
-      display: block;
+    /* smaller items are uniform-height thumbnails */
+    .media-item.size-half img,  .media-item.size-half video  { width: 100%; height: 240px; object-fit: cover; display: block; }
+    .media-item.size-third img, .media-item.size-third video { width: 100%; height: 170px; object-fit: cover; display: block; }
+
+    /* expand hint on hover */
+    .media-item .zoom-hint {
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      background: rgba(28,28,28,0.72);
+      color: #fff;
+      font-family: var(--display);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 3px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
     }
 
-    .card .visual iframe {
-      width: 100%;
-      height: 400px;
-      border: none;
-      display: block;
-    }
+    .media-item:hover .zoom-hint { opacity: 1; }
 
-    .card .visual-placeholder {
-      width: 100%;
-      height: 200px;
+    /* video play badge */
+    .media-item .play-badge {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(28,28,28,0.65);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--text-secondary);
-      font-size: 0.85rem;
+      pointer-events: none;
+    }
+
+    .media-item .play-badge::after {
+      content: '';
+      border-style: solid;
+      border-width: 9px 0 9px 15px;
+      border-color: transparent transparent transparent #fff;
+      margin-left: 3px;
+    }
+
+    /* PDF badge for items that have a linked document */
+    .media-item .pdf-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: var(--accent);
+      color: #fff;
       font-family: var(--display);
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      padding: 0.18rem 0.5rem;
+      border-radius: 3px;
+      pointer-events: none;
+    }
+
+    /* broken file notice — shows the exact path that failed to load */
+    .media-item.broken {
+      cursor: default;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .media-item.broken .broken-msg {
+      font-family: var(--display);
+      font-size: 0.75rem;
+      color: #A03030;
+      padding: 0.8rem;
+      text-align: center;
+      word-break: break-all;
     }
 
     .tags {
@@ -312,10 +378,7 @@
       margin-bottom: 0.8rem;
     }
 
-    .skill-category ul {
-      list-style: none;
-      padding: 0;
-    }
+    .skill-category ul { list-style: none; padding: 0; }
 
     .skill-category li {
       font-size: 0.92rem;
@@ -324,72 +387,31 @@
       border-bottom: 1px solid var(--tag-bg);
     }
 
-    .skill-category li:last-child {
-      border-bottom: none;
-    }
+    .skill-category li:last-child { border-bottom: none; }
 
-    /* — PHOTO GALLERY — */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.2rem;
-    }
+    /* — PHOTO GALLERY (also rendered from the LAYOUT manifest) — */
+    .gallery .media-grid { gap: 1.2rem; }
 
-    .gallery-item {
+    .gallery .media-item {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      overflow: hidden;
+      cursor: zoom-in;
     }
 
-    .gallery-item img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .gallery-item video {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .gallery-item .gallery-placeholder {
-      width: 100%;
-      height: 220px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--tag-bg);
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-      font-family: var(--display);
-    }
-
-    .gallery-item .caption {
-      padding: 0.8rem 1rem;
-      font-size: 0.88rem;
+    .gallery .media-item .caption {
+      padding: 0.7rem 0.9rem;
+      font-size: 0.86rem;
       color: var(--text-secondary);
       line-height: 1.5;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      cursor: auto;
     }
 
-    /* Wide multi-photo gallery item — spans the full row, photos sit side by side */
-    .gallery-item.photo-group {
-      grid-column: 1 / -1;
-    }
-
-    .photo-group-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-    }
-
-    .photo-group-grid img {
-      width: 100%;
-      height: 320px;
-      object-fit: cover;
-      display: block;
-    }
+    /* gallery images keep their full frame — no side/top cropping */
+    .gallery .media-item.size-full img  { max-height: 520px; object-fit: contain; }
+    .gallery .media-item.size-half img  { height: 300px; object-fit: contain; background: var(--tag-bg); }
+    .gallery .media-item.size-third img { height: 240px; object-fit: contain; background: var(--tag-bg); }
+    .gallery .media-item video { object-fit: contain; background: var(--tag-bg); }
 
     /* — FOOTER — */
     .footer {
@@ -406,10 +428,7 @@
       gap: 1rem;
     }
 
-    .footer-links {
-      display: flex;
-      gap: 1.2rem;
-    }
+    .footer-links { display: flex; gap: 1.2rem; }
 
     .footer-links a {
       color: var(--text-secondary);
@@ -422,6 +441,356 @@
 
     .footer-links a:hover { color: var(--accent); }
 
+    /* ===================================================================
+       LIGHTBOX — full-screen viewer for images, video, and PDFs
+       =================================================================== */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 19, 17, 0.94);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3.5rem 4.5rem 4.5rem;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox .lb-stage {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+    }
+
+    .lightbox .lb-stage img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 3px;
+    }
+
+    .lightbox .lb-stage video {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 3px;
+    }
+
+    .lightbox .lb-stage iframe {
+      width: min(1100px, 100%);
+      height: 100%;
+      border: none;
+      background: #fff;
+      border-radius: 3px;
+    }
+
+    .lightbox .lb-caption {
+      color: #E8E6E1;
+      font-family: var(--body);
+      font-size: 0.92rem;
+      margin-top: 0.9rem;
+      text-align: center;
+      max-width: 760px;
+      line-height: 1.5;
+    }
+
+    .lightbox .lb-counter {
+      color: #9c9a95;
+      font-family: var(--display);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      margin-top: 0.35rem;
+    }
+
+    .lightbox .lb-pdf-link {
+      display: inline-block;
+      margin-top: 0.7rem;
+      font-family: var(--display);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #1C1C1C;
+      background: var(--accent-light);
+      text-decoration: none;
+      padding: 0.4rem 0.9rem;
+      border-radius: 3px;
+    }
+
+    .lightbox button {
+      position: absolute;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.22);
+      color: #fff;
+      font-family: var(--display);
+      font-size: 1.15rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .lightbox button:hover { background: rgba(255,255,255,0.2); }
+    .lightbox .lb-close { top: 1.2rem; right: 1.2rem; }
+    .lightbox .lb-prev  { left: 1.2rem; top: 50%; transform: translateY(-50%); }
+    .lightbox .lb-next  { right: 1.2rem; top: 50%; transform: translateY(-50%); }
+
+    /* ===================================================================
+       EDIT MODE — layout editor (owner only)
+       Open the site with ?edit added to the URL, or press Ctrl+Shift+E.
+       Changes are saved as a local draft; use "Copy layout code" to get
+       the block to paste back into this file and commit.
+       =================================================================== */
+    .edit-toolbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #1C1C1C;
+      color: #F5F4F0;
+      z-index: 900;
+      display: none;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.7rem 1.2rem;
+      font-family: var(--display);
+      font-size: 0.82rem;
+      flex-wrap: wrap;
+    }
+
+    body.editing .edit-toolbar { display: flex; }
+    body.editing { padding-bottom: 70px; }
+
+    .edit-toolbar .et-label {
+      font-weight: 600;
+      color: var(--accent-light);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+    }
+
+    .edit-toolbar button {
+      font-family: var(--display);
+      font-size: 0.78rem;
+      font-weight: 500;
+      background: rgba(255,255,255,0.1);
+      color: #F5F4F0;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 3px;
+      padding: 0.35rem 0.8rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .edit-toolbar button:hover { background: rgba(255,255,255,0.22); }
+    .edit-toolbar button.primary { background: var(--accent); border-color: var(--accent); }
+    .edit-toolbar button.primary:hover { background: var(--accent-light); color: #1C1C1C; }
+    .edit-toolbar .et-status { color: #9c9a95; font-size: 0.75rem; margin-left: auto; }
+
+    /* per-item edit controls */
+    body.editing .media-item { cursor: default; }
+
+    .media-item .edit-controls {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      display: none;
+      gap: 4px;
+      z-index: 5;
+    }
+
+    body.editing .media-item .edit-controls { display: flex; }
+
+    .media-item .edit-controls button {
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 3px;
+      background: rgba(28,28,28,0.85);
+      color: #fff;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--display);
+      transition: background 0.15s;
+    }
+
+    .media-item .edit-controls button:hover { background: var(--accent); }
+    .media-item .edit-controls button.ec-del:hover { background: #A03030; }
+
+    .media-item .size-label {
+      position: absolute;
+      bottom: 6px;
+      left: 6px;
+      display: none;
+      background: rgba(28,28,28,0.85);
+      color: var(--accent-light);
+      font-family: var(--display);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+
+    body.editing .media-item .size-label { display: block; }
+
+    /* add-media button that appears at the end of each grid in edit mode */
+    .add-media {
+      display: none;
+      grid-column: span 2;
+      min-height: 110px;
+      border: 2px dashed var(--accent-light);
+      border-radius: 3px;
+      background: none;
+      color: var(--accent);
+      font-family: var(--display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+
+    body.editing .add-media { display: flex; }
+    .add-media:hover { background: rgba(184,134,11,0.07); }
+
+    /* media picker dialog */
+    .picker {
+      position: fixed;
+      inset: 0;
+      background: rgba(20,19,17,0.6);
+      z-index: 950;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .picker.open { display: flex; }
+
+    .picker .picker-panel {
+      background: var(--surface);
+      border-radius: 6px;
+      max-width: 720px;
+      width: 100%;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.3);
+    }
+
+    .picker .picker-head {
+      padding: 1.1rem 1.4rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .picker .picker-head button {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+    }
+
+    .picker .picker-list {
+      overflow-y: auto;
+      padding: 1rem 1.4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.8rem;
+    }
+
+    .picker .picker-file {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--tag-bg);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .picker .picker-file:hover { border-color: var(--accent); box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .picker .picker-file img { width: 100%; height: 95px; object-fit: cover; display: block; }
+
+    .picker .picker-file .pf-name {
+      font-family: var(--display);
+      font-size: 0.68rem;
+      padding: 0.4rem 0.5rem;
+      color: var(--text-secondary);
+      word-break: break-all;
+      background: var(--surface);
+    }
+
+    .picker .picker-file .pf-icon {
+      height: 95px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--display);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .picker .picker-foot {
+      padding: 0.9rem 1.4rem 1.1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 0.6rem;
+    }
+
+    .picker .picker-foot input {
+      flex: 1;
+      font-family: var(--body);
+      font-size: 0.88rem;
+      padding: 0.45rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+    }
+
+    .picker .picker-foot button {
+      font-family: var(--display);
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      padding: 0.45rem 1rem;
+      cursor: pointer;
+    }
+
+    /* draft banner */
+    .draft-banner {
+      display: none;
+      max-width: 900px;
+      margin: 0 auto 1.5rem;
+      padding: 0.6rem 1.5rem;
+      font-family: var(--display);
+      font-size: 0.78rem;
+      color: #7a5a08;
+    }
+
+    body.has-draft .draft-banner { display: block; }
+
     /* — RESPONSIVE — */
     @media (max-width: 600px) {
       .header { padding: 3rem 1.2rem 2rem; }
@@ -429,14 +798,25 @@
       .section { padding: 0 1.2rem 3rem; }
       .toc { padding: 0 1.2rem 2rem; }
       .card { padding: 1.4rem 1.2rem 1.3rem; }
-      .card .visual img { max-height: 280px; }
-      .card .visual video { max-height: 280px; }
-      .card .visual iframe { height: 240px; }
       .section-wide { padding: 0 1.2rem 3rem; }
       .skills-grid { grid-template-columns: repeat(2, 1fr); }
-      .gallery { grid-template-columns: 1fr; }
-      .photo-group-grid { grid-template-columns: 1fr; }
-      .photo-group-grid img { height: auto; }
+
+      /* every media item goes full-width on phones */
+      .media-item.size-full,
+      .media-item.size-half,
+      .media-item.size-third { grid-column: span 6; }
+      .media-item.size-half img,  .media-item.size-half video,
+      .media-item.size-third img, .media-item.size-third video {
+        height: auto;
+        max-height: 320px;
+        object-fit: contain;
+        background: var(--tag-bg);
+      }
+      .media-item.size-full img, .media-item.size-full video { max-height: 340px; }
+
+      .lightbox { padding: 3.2rem 0.6rem 3.6rem; }
+      .lightbox .lb-prev { left: 0.4rem; }
+      .lightbox .lb-next { right: 0.4rem; }
       .footer { padding: 2rem 1.2rem 3rem; }
     }
 
@@ -447,10 +827,7 @@
     }
 
     /* — FOCUS — */
-    a:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   </style>
 </head>
 <body>
@@ -491,6 +868,10 @@
     </div>
   </nav>
 
+  <div class="draft-banner">
+    Draft layout active (saved only in this browser). Open edit mode and use "Copy layout code" to publish it, or "Discard draft" to go back to the committed layout.
+  </div>
+
   <!-- ===== SKILLS & TOOLS ===== -->
   <section class="section-wide" id="skills">
     <div class="section-label">Skills &amp; Tools</div>
@@ -514,7 +895,7 @@
           <li>OpenFOAM</li>
         </ul>
       </div>
-      
+
       <div class="skill-category">
         <h4>Manufacturing &amp; Prototyping</h4>
         <ul>
@@ -524,13 +905,13 @@
           <li>Laser Cutting</li>
         </ul>
       </div>
-      
+
       <div class="skill-category">
         <h4>Programming</h4>
         <ul>
           <li>Python/Pytorch</li>
           <li>MATLAB</li>
-          <li>C++</li>   
+          <li>C++</li>
         </ul>
       </div>
 
@@ -544,16 +925,8 @@
     <!-- Card 1: EV Battery Thermal Management -->
     <div class="card">
       <h3>EV Battery Thermal Management</h3>
-      <div class="card-role">Undergraduate researcher · University of Michigan · <a href="images/ev-battery-poster.pdf" target="_blank" rel="noopener">Poster →</a> · <a href="images/ev-battery-manuscript.pdf" target="_blank" rel="noopener">Manuscript →</a></div>
-      <div class="visual">
-        <img src="images/ev-battery-poster.jpg" alt="External Direct Liquid Cooling of Lithium-ion Batteries research poster">
-        <img src="images/ev-battery-experimental-setup-photo.jpg" alt="Annotated photo of the battery cooling test bench showing pressure valve, chiller, flow meter, battery tester, and DAQ">
-        <img src="images/ev-battery-helical-jacket-cad.png" alt="CAD rendering of the helical coolant jacket">
-        <img src="images/ev-battery-hollow-jacket-cad.png" alt="CAD rendering of the hollow coolant jacket">
-        <img src="images/ev-battery-1c-discharge-profile.png" alt="Current and voltage profile during 1C discharging">
-        <img src="images/ev-battery-discharge-temperature-comparison.png" alt="Battery temperature comparison across air, helical, and hollow cooling at 1.5C and 2C discharging">
-        <img src="images/ev-battery-radial-temp-distribution.png" alt="Simulated radial temperature distribution for air, hollow jacket, and helical jacket cooling">
-      </div>
+      <div class="card-role">Undergraduate researcher · University of Michigan · <a href="images/ev-battery-poster.pdf" target="_blank" rel="noopener">Poster (PDF) →</a> · <a href="images/ev-battery-manuscript.pdf" target="_blank" rel="noopener">Manuscript (PDF) →</a></div>
+      <div class="media-grid" data-media="ev-battery"></div>
       <div class="card-body">
         [Describe the thermal problem you're working on, your specific role, the methods
         and tools you used, and any results or contributions. 3–5 sentences.]
@@ -570,13 +943,7 @@
     <div class="card">
       <h3>NEECS — Acoustic Vibrations &amp; Machine Learning Lab</h3>
       <div class="card-role">Undergraduate researcher · University of Michigan</div>
-      <div class="visual">
-        <img src="images/neecs-test-rig-photo.png" alt="Aluminum tube test rig with mounted sensors and bungee supports">
-        <img src="images/neecs-apparatus-diagram.png" alt="Diagram of the tube apparatus labeling probe points, speaker, and bungee support points">
-        <img src="images/neecs-pipeline-diagram.svg" alt="NEEC acoustic vibration ML pipeline diagram">
-        <img src="images/neecs-fft-vs-standard-tube.png" alt="Normalized FFT comparison across six sensors versus a standard unmodified tube">
-        <img src="images/neecs-fft-vs-comsol-models.png" alt="Normalized FFT comparison against multiple COMSOL simulation models">
-      </div>
+      <div class="media-grid" data-media="neecs"></div>
       <div class="card-body">
         [Describe the project — what it is, what you worked on, what methods/tools
         you used, and what you delivered or discovered. 3–5 sentences.]
@@ -588,24 +955,11 @@
       </div>
     </div>
 
-    <!-- Card 3: Current Energy Lab -->
+    <!-- Card 3: Offshore Marine -->
     <div class="card">
       <h3>Offshore Marine &amp; Mechanical Engineering Lab</h3>
       <div class="card-role">Undergraduate researcher · University of Michigan</div>
-      <div class="visual">
-        <img src="images/offshore-mesh-diagram.png" alt="CFD overset mesh diagram showing component mesh, background mesh, wall boundaries, and overset boundary">
-        <img src="images/offshore-two-cylinder-mesh.png" alt="Two-cylinder overset mesh with flow field visualization">
-        <img src="images/offshore-power-vs-flowspeed.png" alt="Graph of normalized power output versus flow speed for one to four cylinder arrays">
-        <video controls>
-          <source src="images/offshore-cfd-simulation.mp4" type="video/mp4">
-        </video>
-        <video controls>
-          <source src="images/offshore-cylinder-motion.mp4" type="video/mp4">
-        </video>
-        <video controls>
-          <source src="images/offshore-physical-test.mp4" type="video/mp4">
-        </video>
-      </div>
+      <div class="media-grid" data-media="offshore"></div>
       <div class="card-body">
         [Describe the research focus, your specific role, methods, and results.
         3–5 sentences. If unpublished, keep it general enough to avoid scooping.]
@@ -620,42 +974,12 @@
   </section>
 
   <!-- ===== ADDITIONAL PHOTOS ===== -->
-  <section class="section" id="photos">
+  <section class="section gallery" id="photos">
     <div class="section-label">Additional Photos</div>
-    <div class="gallery">
-
-      <div class="gallery-item photo-group">
-        <div class="photo-group-grid">
-          <img src="images/rover-cad-render.png" alt="CAD render of a wheeled rover with a pincer gripper arm">
-          <img src="images/rover-build-photo-1.jpg" alt="Assembled rover with gripper arm on a workbench">
-          <img src="images/rover-build-photo-2.jpg" alt="Close-up of the rover's pincer gripper mechanism">
-        </div>
-        <div class="caption">[Caption — describe what this photo group shows]</div>
-      </div>
-
-      <div class="gallery-item">
-        <img src="images/battery-module-holder-cad.png" alt="CAD render of a battery module holder with hinged lid and cylindrical cell sockets">
-        <div class="caption">[Caption]</div>
-      </div>
-
-      <div class="gallery-item">
-        <div class="gallery-placeholder">[Photo 3]</div>
-        <!-- Replace with: <img src="images/photo3.jpg" alt="Description"> -->
-        <div class="caption">[Caption]</div>
-      </div>
-
-      <div class="gallery-item">
-        <div class="gallery-placeholder">[Photo 4]</div>
-        <!-- Replace with: <img src="images/photo4.jpg" alt="Description"> -->
-        <div class="caption">[Caption]</div>
-      </div>
-
-      <!-- Copy and paste a gallery-item block to add more photos -->
-
-    </div>
+    <div class="media-grid" data-media="gallery"></div>
   </section>
 
-  <!-- ===== GITHUB PROJECTS ===== -->
+  <!-- ===== PERSONAL PROJECTS ===== -->
   <section class="section" id="github">
     <div class="section-label">Personal Projects</div>
 
@@ -663,14 +987,12 @@
     <div class="card" id="mechlab">
       <h3>Mech Lab — Automated Engineering Education Pipeline</h3>
       <div class="card-role">Solo developer · 2026</div>
-      <div class="visual">
-        <img src="images/mechlab-diagram.svg" alt="Mech Lab pipeline architecture diagram">
-      </div>
+      <div class="media-grid" data-media="mechlab"></div>
       <div class="card-body">
         Built a fully automated video production pipeline that turns a topic outline into a
         publish-ready YouTube lecture. Steps include scripting, narration, animation, and upload without
         manual handoff between stages. The system generates Claude API scripts, synthesizes
-        Narration through ElevenLabs renders synchronized Manim animations using a
+        narration through ElevenLabs, renders synchronized Manim animations using a
         beat-structured timing engine, and assembles everything via FFmpeg. All steps are managed
         and controlled through a 2000+ line Python script guiding the pipeline process, capable of
         generating educational videos for any topic.
@@ -688,13 +1010,11 @@
     <div class="card" id="internship-bot">
       <h3>Internship Alert Bot</h3>
       <div class="card-role">Solo developer · 2026</div>
-      <div class="visual">
-        <img src="images/internship-bot-diagram.svg" alt="Internship Alert Bot architecture diagram">
-      </div>
+      <div class="media-grid" data-media="internship-bot"></div>
       <div class="card-body">
         A GitHub Actions bot that monitors community-maintained internship tracker repos for new
         mechanical engineering postings and pushes phone notifications via ntfy.sh within minutes.
-        This bot takes certain keywords and catches new postings within minutes of being added, 
+        This bot takes certain keywords and catches new postings within minutes of being added,
         scraping and sending push notifications every ~2 hours.
       </div>
       <div class="tags">
@@ -709,14 +1029,12 @@
     <div class="card" id="scholarship">
       <h3>Scholarship Application System</h3>
       <div class="card-role">Solo developer · 2026</div>
-      <div class="visual">
-        <img src="images/scholarship-system-diagram.svg?v=2" alt="Scholarship application system pipeline diagram">
-      </div>
+      <div class="media-grid" data-media="scholarship"></div>
       <div class="card-body">
         A five-stage pipeline that handles scholarship discovery, eligibility matching, and
         drafting. Combined with a hard constraint that every application gets personally reviewed
         before submission. Uses a YAML profile guide to filter relevant postings across thousands
-        of open applications. Built to cut the hours of repetitive searching down to an automated  
+        of open applications. Built to cut the hours of repetitive searching down to an automated
         filtration process and matching.
       </div>
       <div class="tags">
@@ -737,6 +1055,474 @@
       <a href="mailto:danielzu@umich.edu">danielzu@umich.edu</a>
     </div>
   </footer>
+
+  <!-- ===== LIGHTBOX ===== -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Media viewer">
+    <button class="lb-close" aria-label="Close viewer">✕</button>
+    <button class="lb-prev" aria-label="Previous item">‹</button>
+    <button class="lb-next" aria-label="Next item">›</button>
+    <div class="lb-stage" id="lb-stage"></div>
+    <div class="lb-caption" id="lb-caption"></div>
+    <div class="lb-counter" id="lb-counter"></div>
+  </div>
+
+  <!-- ===== EDIT MODE UI ===== -->
+  <div class="edit-toolbar" id="edit-toolbar">
+    <span class="et-label">Edit mode</span>
+    <button id="et-export" class="primary">Copy layout code</button>
+    <button id="et-discard">Discard draft</button>
+    <button id="et-exit">Exit edit mode</button>
+    <span class="et-status" id="et-status">Changes save automatically as a local draft. Paste the copied layout code over the LAYOUT block in index.html and push to publish.</span>
+  </div>
+
+  <div class="picker" id="picker">
+    <div class="picker-panel">
+      <div class="picker-head">
+        <span>Add media</span>
+        <button id="picker-close" aria-label="Close">✕</button>
+      </div>
+      <div class="picker-list" id="picker-list"></div>
+      <div class="picker-foot">
+        <input type="text" id="picker-path" placeholder="Or type a path, e.g. images/new-photo.jpg">
+        <button id="picker-add">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  /* =====================================================================
+     LAYOUT — the single source of truth for every image/video on the page.
+     Each key matches a <div class="media-grid" data-media="key">.
+     Item fields:
+       src  — file path
+       cap  — caption shown in the lightbox (and under gallery items)
+       size — "full" | "half" | "third"
+       pdf  — optional linked PDF, shown as an "Open PDF" button in the lightbox
+     To publish layout changes made in edit mode: click "Copy layout code"
+     and paste the result over this whole block (from LAYOUT = { to };).
+     ===================================================================== */
+  let LAYOUT = {
+    "ev-battery": [
+      { src: "images/ev-battery-poster.jpg", cap: "Research poster — External Direct Liquid Cooling of Lithium-ion Batteries", size: "full", pdf: "images/ev-battery-poster.pdf" },
+      { src: "images/ev-battery-experimental-setup-photo.jpg", cap: "Battery cooling test bench: pressure valve, chiller, flow meter, battery tester, and DAQ", size: "half" },
+      { src: "images/ev-battery-discharge-temperature-comparison.png", cap: "Battery temperature comparison across air, helical, and hollow cooling at 1.5C and 2C discharge", size: "half" },
+      { src: "images/ev-battery-helical-jacket-cad.png", cap: "CAD rendering of the helical coolant jacket", size: "third" },
+      { src: "images/ev-battery-hollow-jacket-cad.png", cap: "CAD rendering of the hollow coolant jacket", size: "third" },
+      { src: "images/ev-battery-1c-discharge-profile.png", cap: "Current and voltage profile during 1C discharge", size: "third" },
+      { src: "images/ev-battery-radial-temp-distribution.png", cap: "Simulated radial temperature distribution: air, hollow jacket, and helical jacket cooling", size: "full" }
+    ],
+    "neecs": [
+      { src: "images/neecs-pipeline-diagram.svg", cap: "Acoustic vibration ML pipeline", size: "full" },
+      { src: "images/neecs-test-rig-photo.png", cap: "Aluminum tube test rig with mounted sensors and bungee supports", size: "half" },
+      { src: "images/neecs-apparatus-diagram.png", cap: "Tube apparatus: probe points, speaker, and bungee support points", size: "half" },
+      { src: "images/neecs-fft-vs-standard-tube.png", cap: "Normalized FFT across six sensors vs. a standard unmodified tube", size: "half" },
+      { src: "images/neecs-fft-vs-comsol-models.png", cap: "Normalized FFT vs. multiple COMSOL simulation models", size: "half" }
+    ],
+    "offshore": [
+      { src: "images/offshore-power-vs-flowspeed.png", cap: "Normalized power output vs. flow speed for 1–4 cylinder arrays", size: "full" },
+      { src: "images/offshore-mesh-diagram.png", cap: "CFD overset mesh: component mesh, background mesh, wall and overset boundaries", size: "half" },
+      { src: "images/offshore-two-cylinder-mesh.png", cap: "Two-cylinder overset mesh with flow field visualization", size: "half" },
+      { src: "images/offshore-cfd-simulation.mp4", cap: "CFD simulation", size: "third" },
+      { src: "images/offshore-cylinder-motion.mp4", cap: "Cylinder motion", size: "third" },
+      { src: "images/offshore-physical-test.mp4", cap: "Physical test", size: "third" }
+    ],
+    "gallery": [
+      { src: "images/rover-cad-render.png", cap: "CAD render of a wheeled rover with a pincer gripper arm", size: "third" },
+      { src: "images/rover-build-photo-1.jpg", cap: "Assembled rover with gripper arm", size: "third" },
+      { src: "images/rover-build-photo-2.jpg", cap: "Close-up of the pincer gripper mechanism", size: "third" },
+      { src: "images/battery-module-holder-cad.png", cap: "Battery module holder with hinged lid and cylindrical cell sockets", size: "half" }
+    ],
+    "mechlab": [
+      { src: "images/mechlab-diagram.svg", cap: "Mech Lab pipeline architecture", size: "full" }
+    ],
+    "internship-bot": [
+      { src: "images/internship-bot-diagram.svg", cap: "Internship Alert Bot architecture", size: "full" }
+    ],
+    "scholarship": [
+      { src: "images/scholarship-system-diagram.svg", cap: "Scholarship application system pipeline", size: "full" }
+    ]
+  };
+
+  /* Files available in the "Add media" picker. Add new filenames here (or
+     just type the path in the picker) after uploading them to images/. */
+  const KNOWN_FILES = [
+    "images/ev-battery-poster.jpg",
+    "images/ev-battery-poster.pdf",
+    "images/ev-battery-manuscript.pdf",
+    "images/ev-battery-experimental-setup-photo.jpg",
+    "images/ev-battery-helical-jacket-cad.png",
+    "images/ev-battery-hollow-jacket-cad.png",
+    "images/ev-battery-1c-discharge-profile.png",
+    "images/ev-battery-discharge-temperature-comparison.png",
+    "images/ev-battery-radial-temp-distribution.png",
+    "images/neecs-test-rig-photo.png",
+    "images/neecs-apparatus-diagram.png",
+    "images/neecs-pipeline-diagram.svg",
+    "images/neecs-fft-vs-standard-tube.png",
+    "images/neecs-fft-vs-comsol-models.png",
+    "images/offshore-mesh-diagram.png",
+    "images/offshore-two-cylinder-mesh.png",
+    "images/offshore-power-vs-flowspeed.png",
+    "images/offshore-cfd-simulation.mp4",
+    "images/offshore-cylinder-motion.mp4",
+    "images/offshore-physical-test.mp4",
+    "images/rover-cad-render.png",
+    "images/rover-build-photo-1.jpg",
+    "images/rover-build-photo-2.jpg",
+    "images/battery-module-holder-cad.png",
+    "images/mechlab-diagram.svg",
+    "images/internship-bot-diagram.svg",
+    "images/scholarship-system-diagram.svg"
+  ];
+
+  /* ================= internals ================= */
+  const DRAFT_KEY = "portfolio-layout-draft";
+  const SIZES = ["full", "half", "third"];
+  let editing = false;
+  let lbItems = [];   // flat list currently open in the lightbox
+  let lbIndex = 0;
+
+  const isVideo = s => /\.(mp4|webm|mov)$/i.test(s);
+  const isPdf   = s => /\.pdf$/i.test(s);
+
+  /* --- draft handling --- */
+  function loadDraft() {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (!raw) return;
+      const draft = JSON.parse(raw);
+      if (draft && typeof draft === "object") {
+        LAYOUT = draft;
+        document.body.classList.add("has-draft");
+      }
+    } catch (e) { /* corrupted draft — ignore it */ }
+  }
+
+  function saveDraft() {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(LAYOUT));
+    document.body.classList.add("has-draft");
+    setStatus("Draft saved locally " + new Date().toLocaleTimeString());
+  }
+
+  function setStatus(msg) {
+    const el = document.getElementById("et-status");
+    if (el) el.textContent = msg;
+  }
+
+  /* --- rendering --- */
+  function renderAll() {
+    document.querySelectorAll(".media-grid[data-media]").forEach(grid => {
+      renderGrid(grid, grid.dataset.media);
+    });
+  }
+
+  function renderGrid(grid, key) {
+    const items = LAYOUT[key] || [];
+    grid.innerHTML = "";
+    const inGallery = grid.closest(".gallery") !== null;
+
+    items.forEach((item, i) => {
+      const cell = document.createElement("div");
+      cell.className = "media-item size-" + (item.size || "half");
+      cell.tabIndex = 0;
+      cell.setAttribute("role", "button");
+      cell.setAttribute("aria-label", "Open " + (item.cap || item.src) + " full size");
+
+      if (isVideo(item.src)) {
+        const v = document.createElement("video");
+        v.src = item.src + "#t=0.1";      // seek slightly in so a frame shows as the thumbnail
+        v.muted = true;
+        v.preload = "metadata";
+        v.playsInline = true;
+        v.onerror = () => markBroken(cell, item.src);
+        cell.appendChild(v);
+        const badge = document.createElement("div");
+        badge.className = "play-badge";
+        cell.appendChild(badge);
+      } else {
+        const img = document.createElement("img");
+        img.src = item.src;
+        img.alt = item.cap || "";
+        img.loading = "lazy";
+        img.onerror = () => markBroken(cell, item.src);
+        cell.appendChild(img);
+      }
+
+      if (item.pdf) {
+        const pb = document.createElement("div");
+        pb.className = "pdf-badge";
+        pb.textContent = "PDF";
+        cell.appendChild(pb);
+      }
+
+      const hint = document.createElement("div");
+      hint.className = "zoom-hint";
+      hint.textContent = isVideo(item.src) ? "Play ⤢" : "Expand ⤢";
+      cell.appendChild(hint);
+
+      /* edit-mode controls */
+      const sizeLabel = document.createElement("div");
+      sizeLabel.className = "size-label";
+      sizeLabel.textContent = item.size || "half";
+      cell.appendChild(sizeLabel);
+
+      const ec = document.createElement("div");
+      ec.className = "edit-controls";
+      ec.innerHTML =
+        '<button title="Move earlier" data-act="left">◀</button>' +
+        '<button title="Move later" data-act="right">▶</button>' +
+        '<button title="Cycle size (full / half / third)" data-act="size">⤢</button>' +
+        '<button title="Edit caption" data-act="cap">✎</button>' +
+        '<button title="Remove from page" data-act="del" class="ec-del">✕</button>';
+      ec.addEventListener("click", e => {
+        const act = e.target.dataset.act;
+        if (!act) return;
+        e.stopPropagation();
+        handleEdit(key, i, act);
+      });
+      cell.appendChild(ec);
+
+      /* gallery caption below the media */
+      if (inGallery && item.cap) {
+        const cap = document.createElement("div");
+        cap.className = "caption";
+        cap.textContent = item.cap;
+        cap.addEventListener("click", e => e.stopPropagation());
+        cell.appendChild(cap);
+      }
+
+      cell.addEventListener("click", () => { if (!editing) openLightbox(key, i); });
+      cell.addEventListener("keydown", e => {
+        if ((e.key === "Enter" || e.key === " ") && !editing) {
+          e.preventDefault();
+          openLightbox(key, i);
+        }
+      });
+
+      grid.appendChild(cell);
+    });
+
+    /* add-media button (visible in edit mode only) */
+    const add = document.createElement("button");
+    add.className = "add-media";
+    add.type = "button";
+    add.textContent = "＋ Add media";
+    add.addEventListener("click", () => openPicker(key));
+    grid.appendChild(add);
+  }
+
+  function markBroken(cell, src) {
+    cell.classList.add("broken");
+    cell.innerHTML = '<div class="broken-msg">File not found:<br>' + src +
+      '<br><span style="color:var(--text-secondary)">Check the exact filename (and capitalization) in the repo\'s images folder.</span></div>';
+  }
+
+  /* --- edit actions --- */
+  function handleEdit(key, i, act) {
+    const items = LAYOUT[key];
+    if (act === "left" && i > 0) {
+      [items[i - 1], items[i]] = [items[i], items[i - 1]];
+    } else if (act === "right" && i < items.length - 1) {
+      [items[i], items[i + 1]] = [items[i + 1], items[i]];
+    } else if (act === "size") {
+      const cur = SIZES.indexOf(items[i].size || "half");
+      items[i].size = SIZES[(cur + 1) % SIZES.length];
+    } else if (act === "cap") {
+      const next = prompt("Caption for this item:", items[i].cap || "");
+      if (next !== null) items[i].cap = next.trim();
+    } else if (act === "del") {
+      if (!confirm("Remove this item from the page? The file stays in your repo.")) return;
+      items.splice(i, 1);
+    } else {
+      return;
+    }
+    saveDraft();
+    renderAll();
+  }
+
+  /* --- media picker --- */
+  let pickerTarget = null;
+
+  function openPicker(key) {
+    pickerTarget = key;
+    const list = document.getElementById("picker-list");
+    list.innerHTML = "";
+    const used = new Set((LAYOUT[key] || []).map(x => x.src));
+    KNOWN_FILES.filter(f => !used.has(f)).forEach(f => {
+      const el = document.createElement("div");
+      el.className = "picker-file";
+      if (isVideo(f) || isPdf(f)) {
+        el.innerHTML = '<div class="pf-icon">' + (isPdf(f) ? "PDF" : "VIDEO") + '</div>';
+      } else {
+        const img = document.createElement("img");
+        img.src = f;
+        img.alt = "";
+        img.loading = "lazy";
+        el.appendChild(img);
+      }
+      const name = document.createElement("div");
+      name.className = "pf-name";
+      name.textContent = f.replace(/^images\//, "");
+      el.appendChild(name);
+      el.addEventListener("click", () => addMedia(f));
+      list.appendChild(el);
+    });
+    document.getElementById("picker").classList.add("open");
+  }
+
+  function addMedia(path) {
+    if (!path) return;
+    const key = pickerTarget;
+    if (!LAYOUT[key]) LAYOUT[key] = [];
+    if (isPdf(path)) {
+      alert("PDFs attach to an image instead of showing directly in the grid — add the image first, then link the PDF by editing that item's pdf field in the exported layout code.");
+      return;
+    }
+    LAYOUT[key].push({ src: path, cap: "", size: "half" });
+    closePicker();
+    saveDraft();
+    renderAll();
+  }
+
+  function closePicker() {
+    document.getElementById("picker").classList.remove("open");
+    document.getElementById("picker-path").value = "";
+  }
+
+  /* --- export --- */
+  function exportLayout() {
+    const code = "  let LAYOUT = " + JSON.stringify(LAYOUT, null, 4)
+      .replace(/^/gm, "  ").trimStart() + ";";
+    const doCopy = navigator.clipboard
+      ? navigator.clipboard.writeText(code)
+      : Promise.reject();
+    doCopy.then(() => {
+      setStatus("Layout code copied. In index.html, replace everything from 'let LAYOUT = {' to the matching '};' with it, then commit and push.");
+    }).catch(() => {
+      prompt("Copy this layout code, then paste it over the LAYOUT block in index.html:", code);
+    });
+  }
+
+  /* --- edit mode toggle --- */
+  function setEditing(on) {
+    editing = on;
+    document.body.classList.toggle("editing", on);
+    if (on) setStatus("Changes save automatically as a local draft. Use \"Copy layout code\" to publish.");
+  }
+
+  /* --- lightbox --- */
+  function openLightbox(key, i) {
+    lbItems = LAYOUT[key] || [];
+    lbIndex = i;
+    document.getElementById("lightbox").classList.add("open");
+    document.body.style.overflow = "hidden";
+    showLb();
+  }
+
+  function showLb() {
+    const item = lbItems[lbIndex];
+    if (!item) return closeLightbox();
+    const stage = document.getElementById("lb-stage");
+    stage.innerHTML = "";
+
+    if (isVideo(item.src)) {
+      const v = document.createElement("video");
+      v.src = item.src;
+      v.controls = true;
+      v.autoplay = true;
+      v.playsInline = true;
+      stage.appendChild(v);
+    } else {
+      const img = document.createElement("img");
+      img.src = item.src;
+      img.alt = item.cap || "";
+      stage.appendChild(img);
+    }
+
+    const capEl = document.getElementById("lb-caption");
+    capEl.textContent = item.cap || "";
+    if (item.pdf) {
+      const a = document.createElement("a");
+      a.href = item.pdf;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.className = "lb-pdf-link";
+      a.textContent = "Open full PDF ↗";
+      capEl.appendChild(document.createElement("br"));
+      capEl.appendChild(a);
+    }
+
+    document.getElementById("lb-counter").textContent =
+      lbItems.length > 1 ? (lbIndex + 1) + " / " + lbItems.length : "";
+    document.querySelector(".lb-prev").style.display = lbItems.length > 1 ? "flex" : "none";
+    document.querySelector(".lb-next").style.display = lbItems.length > 1 ? "flex" : "none";
+  }
+
+  function closeLightbox() {
+    document.getElementById("lightbox").classList.remove("open");
+    document.getElementById("lb-stage").innerHTML = "";   // stops any playing video
+    document.body.style.overflow = "";
+  }
+
+  function lbStep(d) {
+    lbIndex = (lbIndex + d + lbItems.length) % lbItems.length;
+    showLb();
+  }
+
+  /* --- wiring --- */
+  document.addEventListener("DOMContentLoaded", () => {
+    loadDraft();
+    renderAll();
+
+    /* lightbox controls */
+    document.querySelector(".lb-close").addEventListener("click", closeLightbox);
+    document.querySelector(".lb-prev").addEventListener("click", () => lbStep(-1));
+    document.querySelector(".lb-next").addEventListener("click", () => lbStep(1));
+    document.getElementById("lightbox").addEventListener("click", e => {
+      if (e.target.id === "lightbox" || e.target.id === "lb-stage") closeLightbox();
+    });
+
+    /* keyboard */
+    document.addEventListener("keydown", e => {
+      const lbOpen = document.getElementById("lightbox").classList.contains("open");
+      if (lbOpen) {
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") lbStep(-1);
+        if (e.key === "ArrowRight") lbStep(1);
+        return;
+      }
+      if (e.key === "Escape" && document.getElementById("picker").classList.contains("open")) closePicker();
+      if (e.ctrlKey && e.shiftKey && (e.key === "E" || e.key === "e")) {
+        e.preventDefault();
+        setEditing(!editing);
+      }
+    });
+
+    /* edit toolbar */
+    document.getElementById("et-export").addEventListener("click", exportLayout);
+    document.getElementById("et-exit").addEventListener("click", () => setEditing(false));
+    document.getElementById("et-discard").addEventListener("click", () => {
+      if (!confirm("Discard the local draft and go back to the committed layout?")) return;
+      localStorage.removeItem(DRAFT_KEY);
+      location.reload();
+    });
+
+    /* picker */
+    document.getElementById("picker-close").addEventListener("click", closePicker);
+    document.getElementById("picker").addEventListener("click", e => {
+      if (e.target.id === "picker") closePicker();
+    });
+    document.getElementById("picker-add").addEventListener("click", () => {
+      addMedia(document.getElementById("picker-path").value.trim());
+    });
+    document.getElementById("picker-path").addEventListener("keydown", e => {
+      if (e.key === "Enter") addMedia(e.target.value.trim());
+    });
+
+    /* enter edit mode via ?edit in the URL */
+    if (new URLSearchParams(location.search).has("edit")) setEditing(true);
+  });
+  </script>
 
 </body>
 </html>
