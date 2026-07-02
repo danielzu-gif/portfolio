@@ -179,6 +179,18 @@
       margin-bottom: 1rem;
     }
 
+    .card .card-role a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid var(--accent-light);
+      transition: color 0.2s;
+    }
+
+    .card .card-role a:hover {
+      color: var(--text);
+    }
+
     .card .card-body {
       font-size: 0.97rem;
       color: var(--text);
@@ -359,6 +371,24 @@
       line-height: 1.5;
     }
 
+    /* Wide multi-photo gallery item — spans the full row, photos sit side by side */
+    .gallery-item.photo-group {
+      grid-column: 1 / -1;
+    }
+
+    .photo-group-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .photo-group-grid img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+
     /* — FOOTER — */
     .footer {
       max-width: 740px;
@@ -401,6 +431,8 @@
       .section-wide { padding: 0 1.2rem 3rem; }
       .skills-grid { grid-template-columns: repeat(2, 1fr); }
       .gallery { grid-template-columns: 1fr; }
+      .photo-group-grid { grid-template-columns: 1fr; }
+      .photo-group-grid img { height: auto; }
       .footer { padding: 2rem 1.2rem 3rem; }
     }
 
@@ -508,16 +540,9 @@
     <!-- Card 1: EV Battery Thermal Management -->
     <div class="card">
       <h3>EV Battery Thermal Management</h3>
-      <div class="card-role">Undergraduate researcher · University of Michigan</div>
+      <div class="card-role">Undergraduate researcher · University of Michigan · <a href="images/ev-battery-manuscript.pdf" target="_blank" rel="noopener">Manuscript →</a></div>
       <div class="visual">
-        <div class="visual-placeholder">[Simulation output, thermal map, or test setup photo here]</div>
-        <!-- Delete the placeholder line above and add any mix of images/videos, e.g.:
-        <img src="images/ev-battery-1.png" alt="Cooling jacket CAD render">
-        <img src="images/ev-battery-2.png" alt="Thermal simulation heat map">
-        <video controls>
-          <source src="images/ev-battery-test.mp4" type="video/mp4">
-        </video>
-        -->
+        <img src="images/ev-battery-poster.jpg" alt="External Direct Liquid Cooling of Lithium-ion Batteries research poster">
       </div>
       <div class="card-body">
         [Describe the thermal problem you're working on, your specific role, the methods
@@ -536,14 +561,11 @@
       <h3>NEECS — Acoustic Vibrations &amp; Machine Learning Lab</h3>
       <div class="card-role">Undergraduate researcher · University of Michigan</div>
       <div class="visual">
-        <div class="visual-placeholder">[Photo or diagram here]</div>
-        <!-- Delete the placeholder line above and add any mix of images/videos, e.g.:
-        <img src="images/neecs-1.png" alt="Lab setup">
-        <img src="images/neecs-2.png" alt="Data visualization">
-        <video controls>
-          <source src="images/neecs-demo.mp4" type="video/mp4">
-        </video>
-        -->
+        <img src="images/neecs-test-rig-photo.png" alt="Aluminum tube test rig with mounted sensors and bungee supports">
+        <img src="images/neecs-apparatus-diagram.png" alt="Diagram of the tube apparatus labeling probe points, speaker, and bungee support points">
+        <img src="images/neecs-pipeline-diagram.svg" alt="NEEC acoustic vibration ML pipeline diagram">
+        <img src="images/neecs-fft-vs-standard-tube.png" alt="Normalized FFT comparison across six sensors versus a standard unmodified tube">
+        <img src="images/neecs-fft-vs-comsol-models.png" alt="Normalized FFT comparison against multiple COMSOL simulation models">
       </div>
       <div class="card-body">
         [Describe the project — what it is, what you worked on, what methods/tools
@@ -561,14 +583,18 @@
       <h3>Offshore Marine &amp; Mechanical Engineering Lab</h3>
       <div class="card-role">Undergraduate researcher · University of Michigan</div>
       <div class="visual">
-        <div class="visual-placeholder">[Lab setup, data visualization, or results figure here]</div>
-        <!-- Delete the placeholder line above and add any mix of images/videos, e.g.:
-        <img src="images/energy-lab-1.png" alt="Test rig">
-        <img src="images/energy-lab-2.png" alt="Results figure">
+        <img src="images/offshore-mesh-diagram.png" alt="CFD overset mesh diagram showing component mesh, background mesh, wall boundaries, and overset boundary">
+        <img src="images/offshore-two-cylinder-mesh.png" alt="Two-cylinder overset mesh with flow field visualization">
+        <img src="images/offshore-power-vs-flowspeed.png" alt="Graph of normalized power output versus flow speed for one to four cylinder arrays">
         <video controls>
-          <source src="images/energy-lab-demo.mp4" type="video/mp4">
+          <source src="images/offshore-cfd-simulation.mp4" type="video/mp4">
         </video>
-        -->
+        <video controls>
+          <source src="images/offshore-cylinder-motion.mp4" type="video/mp4">
+        </video>
+        <video controls>
+          <source src="images/offshore-physical-test.mp4" type="video/mp4">
+        </video>
       </div>
       <div class="card-body">
         [Describe the research focus, your specific role, methods, and results.
@@ -588,15 +614,17 @@
     <div class="section-label">Additional Photos</div>
     <div class="gallery">
 
-      <div class="gallery-item">
-        <div class="gallery-placeholder">[Photo 1]</div>
-        <!-- Replace with: <img src="images/photo1.jpg" alt="Description"> -->
-        <div class="caption">[Caption — what this photo shows, e.g. "Test rig assembly for thermal cycling"]</div>
+      <div class="gallery-item photo-group">
+        <div class="photo-group-grid">
+          <img src="images/rover-cad-render.png" alt="CAD render of a wheeled rover with a pincer gripper arm">
+          <img src="images/rover-build-photo-1.jpg" alt="Assembled rover with gripper arm on a workbench">
+          <img src="images/rover-build-photo-2.jpg" alt="Close-up of the rover's pincer gripper mechanism">
+        </div>
+        <div class="caption">[Caption — describe what this photo group shows]</div>
       </div>
 
       <div class="gallery-item">
-        <div class="gallery-placeholder">[Photo 2]</div>
-        <!-- Replace with: <img src="images/photo2.jpg" alt="Description"> -->
+        <img src="images/battery-module-holder-cad.png" alt="CAD render of a battery module holder with hinged lid and cylindrical cell sockets">
         <div class="caption">[Caption]</div>
       </div>
 
