@@ -36,7 +36,7 @@
 
     /* — HEADER — */
     .header {
-      max-width: 740px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 5rem 1.5rem 3rem;
     }
@@ -96,7 +96,7 @@
 
     /* — TABLE OF CONTENTS — */
     .toc {
-      max-width: 740px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 0 1.5rem 3rem;
     }
@@ -135,7 +135,7 @@
 
     /* — SECTION — */
     .section {
-      max-width: 740px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 0 1.5rem 4rem;
     }
@@ -235,13 +235,15 @@
 
     .card .visual img {
       width: 100%;
-      height: auto;
+      max-height: 420px;
+      object-fit: cover;
       display: block;
     }
 
     .card .visual video {
       width: 100%;
-      height: auto;
+      max-height: 420px;
+      object-fit: cover;
       display: block;
     }
 
@@ -282,7 +284,7 @@
 
     /* — SKILLS TABLE — */
     .section-wide {
-      max-width: 960px;
+      max-width: 1160px;
       margin: 0 auto;
       padding: 0 1.5rem 4rem;
     }
@@ -391,7 +393,7 @@
 
     /* — FOOTER — */
     .footer {
-      max-width: 740px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 2rem 1.5rem 4rem;
       border-top: 1px solid var(--border);
@@ -427,6 +429,8 @@
       .section { padding: 0 1.2rem 3rem; }
       .toc { padding: 0 1.2rem 2rem; }
       .card { padding: 1.4rem 1.2rem 1.3rem; }
+      .card .visual img { max-height: 280px; }
+      .card .visual video { max-height: 280px; }
       .card .visual iframe { height: 240px; }
       .section-wide { padding: 0 1.2rem 3rem; }
       .skills-grid { grid-template-columns: repeat(2, 1fr); }
@@ -543,6 +547,12 @@
       <div class="card-role">Undergraduate researcher · University of Michigan · <a href="images/ev-battery-manuscript.pdf" target="_blank" rel="noopener">Manuscript →</a></div>
       <div class="visual">
         <img src="images/ev-battery-poster.jpg" alt="External Direct Liquid Cooling of Lithium-ion Batteries research poster">
+        <img src="images/ev-battery-experimental-setup-photo.jpg" alt="Annotated photo of the battery cooling test bench showing pressure valve, chiller, flow meter, battery tester, and DAQ">
+        <img src="images/ev-battery-helical-jacket-cad.png" alt="CAD rendering of the helical coolant jacket">
+        <img src="images/ev-battery-hollow-jacket-cad.png" alt="CAD rendering of the hollow coolant jacket">
+        <img src="images/ev-battery-1c-discharge-profile.png" alt="Current and voltage profile during 1C discharging">
+        <img src="images/ev-battery-discharge-temperature-comparison.png" alt="Battery temperature comparison across air, helical, and hollow cooling at 1.5C and 2C discharging">
+        <img src="images/ev-battery-radial-temp-distribution.png" alt="Simulated radial temperature distribution for air, hollow jacket, and helical jacket cooling">
       </div>
       <div class="card-body">
         [Describe the thermal problem you're working on, your specific role, the methods
