@@ -217,7 +217,11 @@
     .media-grid {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
-      grid-auto-flow: dense;
+      /* NOTE: no "dense" here on purpose — dense packing reflows items
+         visually to fill gaps, which makes the on-screen order no longer
+         match the LAYOUT array order, and the lightbox counter (1/7, 2/7...)
+         would stop matching what you see. Keep this as plain row flow so
+         "order in LAYOUT" == "order on screen" == "order in the lightbox". */
       gap: 6px;
       margin-bottom: 1.2rem;
     }
@@ -311,6 +315,38 @@
       padding: 0.18rem 0.5rem;
       border-radius: 3px;
       pointer-events: none;
+    }
+
+    /* PDF thumbnail tile — used when the media item itself is a .pdf
+       (browsers can't render a PDF through <img>, so this is a labeled
+       stand-in tile; clicking it opens the real PDF embedded in the lightbox) */
+    .media-item.pdf-tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 170px;
+      background: var(--tag-bg);
+    }
+
+    .media-item.pdf-tile .pdf-icon {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      color: #fff;
+      background: var(--accent);
+      padding: 0.3rem 0.85rem;
+      border-radius: 3px;
+    }
+
+    .media-item.pdf-tile .pdf-name {
+      font-family: var(--display);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      padding: 0 0.8rem;
+      text-align: center;
     }
 
     /* broken file notice — shows the exact path that failed to load */
@@ -789,7 +825,10 @@
       color: #7a5a08;
     }
 
-    body.has-draft .draft-banner { display: block; }
+    /* Only show the draft notice while YOU are in edit mode — a leftover
+       draft in your own browser's storage should never appear to a normal
+       visitor (recruiters), even if you tested edits earlier on this device. */
+    body.editing.has-draft .draft-banner { display: block; }
 
     /* — RESPONSIVE — */
     @media (max-width: 600px) {
@@ -873,45 +912,56 @@
   </div>
 
   <!-- ===== SKILLS & TOOLS ===== -->
+  <!-- EDIT HERE: add/remove <li> items freely, or add a whole new
+       <div class="skill-category"> block (copy one of the four below)
+       if you pick up a new tool. Grid auto-wraps to 2 columns on mobile. -->
   <section class="section-wide" id="skills">
     <div class="section-label">Skills &amp; Tools</div>
     <div class="skills-grid">
 
       <div class="skill-category">
-        <h4>CAD</h4>
+        <h4>CAD &amp; Design</h4>
         <ul>
           <li>SolidWorks</li>
+          <li>Fusion 360</li>
           <li>AutoCAD</li>
-          <li>Fusion360</li>
           <li>Onshape</li>
+          <li>GD&amp;T &amp; Engineering Drawings</li>
+          <li>DFM</li>
         </ul>
       </div>
 
       <div class="skill-category">
         <h4>Simulation &amp; Analysis</h4>
         <ul>
-          <li>ANSYS:  Fluent, Thermal, Harmonic</li>
+          <li>ANSYS: Mechanical, Thermal, Fluent</li>
           <li>COMSOL</li>
           <li>OpenFOAM</li>
+          <li>Simulink</li>
+          <li>Thermal &amp; Vibration Analysis</li>
+          <li>Failure Analysis</li>
         </ul>
       </div>
 
       <div class="skill-category">
-        <h4>Manufacturing &amp; Prototyping</h4>
+        <h4>Manufacturing &amp; Test Hardware</h4>
         <ul>
           <li>3D Printing: Bambu Lab, PrusaSlicer</li>
-          <li>CNC Machining</li>
-          <li>GD&amp;T</li>
+          <li>Mill &amp; Lathe</li>
           <li>Laser Cutting</li>
+          <li>DAQ Systems &amp; Sensors</li>
+          <li>LabVIEW</li>
         </ul>
       </div>
 
       <div class="skill-category">
-        <h4>Programming</h4>
+        <h4>Programming &amp; Automation</h4>
         <ul>
-          <li>Python/Pytorch</li>
+          <li>Python / PyTorch</li>
           <li>MATLAB</li>
           <li>C++</li>
+          <li>GitHub Actions</li>
+          <li>Claude API</li>
         </ul>
       </div>
 
@@ -925,50 +975,72 @@
     <!-- Card 1: EV Battery Thermal Management -->
     <div class="card">
       <h3>EV Battery Thermal Management</h3>
-      <div class="card-role">Undergraduate researcher · University of Michigan · <a href="images/ev-battery-poster.pdf" target="_blank" rel="noopener">Poster (PDF) →</a> · <a href="images/ev-battery-manuscript.pdf" target="_blank" rel="noopener">Manuscript (PDF) →</a></div>
+      <!-- Poster is shown as a tile in the photo grid below, so no separate poster link here.
+           Manuscript has no visual preview, so it stays as a text link. -->
+      <div class="card-role">EV Battery Cooling &amp; Design Research Assistant · Energy Transport Lab, University of Michigan · Sept 2025 – Present · <a href="images/ev-battery-manuscript.pdf" target="_blank" rel="noopener">Manuscript (PDF) →</a></div>
       <div class="media-grid" data-media="ev-battery"></div>
+      <!-- EDIT HERE: card-body is the main pitch paragraph, card-result is the
+           one-line stat recruiters skim first. -->
       <div class="card-body">
-        [Describe the thermal problem you're working on, your specific role, the methods
-        and tools you used, and any results or contributions. 3–5 sentences.]
+        Standard forced-air cooling falls behind once a 21700 cell is pushed past 1C discharge, so I've
+        been building and testing direct-liquid-cooling jackets to pull that heat out faster. I designed
+        two jacket geometries in SolidWorks — a helical channel and a hollow-shell version — then 3D printed
+        both to check wall thickness and overhang limits under thermal load across PrusaSlicer and Bambu
+        Studio. Picked polycarbonate after running a stack of filament candidates for thermal resistance and
+        mechanical strength under sustained coolant exposure, since PLA wasn't going to hold up. Validated
+        heat dissipation and pressure drop for each jacket in steady-state ANSYS Thermal/Fluent simulations
+        before moving into physical discharge testing.
       </div>
-      <div class="card-result">[Key outcome]</div>
+      <div class="card-result">26°C peak temperature reduction at 0.9 L/min direct immersion cooling</div>
       <div class="tags">
-        <span class="tag">ANSYS</span>
-        <span class="tag">Thermal Analysis</span>
-        <span class="tag">[Add relevant tools]</span>
+        <span class="tag">ANSYS Thermal/Fluent</span>
+        <span class="tag">SolidWorks</span>
+        <span class="tag">PrusaSlicer / Bambu Studio</span>
+        <span class="tag">Material Selection</span>
       </div>
     </div>
 
     <!-- Card 2: NEECS -->
     <div class="card">
       <h3>NEECS — Acoustic Vibrations &amp; Machine Learning Lab</h3>
-      <div class="card-role">Undergraduate researcher · University of Michigan</div>
+      <div class="card-role">Mechanical Vibrations &amp; Test Engineer · UMich Naval Engineering Education Consortium · Aug 2025 – Present</div>
       <div class="media-grid" data-media="neecs"></div>
       <div class="card-body">
-        [Describe the project — what it is, what you worked on, what methods/tools
-        you used, and what you delivered or discovered. 3–5 sentences.]
+        Working with the Acoustic Vibrations team under NEEC to build training data for an ML-based
+        underwater source-localization model. Ran 50+ acoustic test runs across 0–10,000 Hz using vibration
+        exciters, accelerometers, and DAQ hardware, then cleaned the raw signal data with FFT-based filtering
+        in MATLAB before feeding it into a supervised multiclass classifier in PyTorch. Cross-checked the
+        experimental vibration-mode trends against ANSYS and COMSOL simulations across five boundary-condition
+        variations to make sure the physical rig actually matched the model.
       </div>
-      <div class="card-result">[Key outcome]</div>
+      <div class="card-result">90% classification accuracy on a 6-source localization model</div>
       <div class="tags">
-        <span class="tag">[Tool]</span>
-        <span class="tag">[Tool]</span>
+        <span class="tag">PyTorch</span>
+        <span class="tag">MATLAB</span>
+        <span class="tag">ANSYS</span>
+        <span class="tag">COMSOL</span>
+        <span class="tag">DAQ Hardware</span>
       </div>
     </div>
 
     <!-- Card 3: Offshore Marine -->
     <div class="card">
       <h3>Offshore Marine &amp; Mechanical Engineering Lab</h3>
-      <div class="card-role">Undergraduate researcher · University of Michigan</div>
+      <div class="card-role">Marine and Mechanical Engineering Research Assistant · Current Energy Conversion Lab, University of Michigan · Sept 2024 – Apr 2025</div>
       <div class="media-grid" data-media="offshore"></div>
       <div class="card-body">
-        [Describe the research focus, your specific role, methods, and results.
-        3–5 sentences. If unpublished, keep it general enough to avoid scooping.]
+        Researched hydrokinetic energy harvesters — cylinders that pull power from vortex-induced vibration
+        in a current. Built three cylinder CAD models in Fusion 360 and ran eight CFD studies in OpenFOAM
+        with fluid-structure interaction, tuning spring stiffness and cylinder mass to find where energy
+        capture peaks. Improved model-to-experiment agreement 25% along the way, which is what actually
+        drove the gain in generation.
       </div>
-      <div class="card-result">[Key outcome]</div>
+      <div class="card-result">15% increase in energy generation through FSI-tuned spring stiffness and cylinder mass</div>
       <div class="tags">
-        <span class="tag">MATLAB</span>
-        <span class="tag">Python</span>
-        <span class="tag">[Add relevant tools]</span>
+        <span class="tag">OpenFOAM</span>
+        <span class="tag">Fusion 360</span>
+        <span class="tag">CFD</span>
+        <span class="tag">FSI Analysis</span>
       </div>
     </div>
   </section>
@@ -1091,163 +1163,83 @@
 
   <script>
   /* =====================================================================
-     LAYOUT — the single source of truth for every image/video on the page.
-     Each key matches a <div class="media-grid" data-media="key">.
-     Item fields:
-       src  — file path
-       cap  — caption shown in the lightbox (and under gallery items)
-       size — "full" | "half" | "third"
-       pdf  — optional linked PDF, shown as an "Open PDF" button in the lightbox
-     To publish layout changes made in edit mode: click "Copy layout code"
-     and paste the result over this whole block (from LAYOUT = { to };).
+     LAYOUT — the single source of truth for every image/video/PDF on the
+     page. This is the easiest place to hand-edit captions and reorder
+     things without going into edit mode at all.
+
+     Each top-level key (e.g. "ev-battery") matches a
+     <div class="media-grid" data-media="ev-battery"> somewhere in the HTML.
+     Items within a key render in array order, top to bottom / left to
+     right — reordering the array reorders the page.
+
+     Per-item fields:
+       src  — file path relative to index.html, e.g. "images/photo.jpg"
+       cap  — caption text. Shown in the lightbox, and under the tile
+              itself in the "Additional Photos" gallery section.
+       size — "full"  (spans the whole row, image shown uncropped)
+              "half"  (half-width thumbnail, cropped to fill)
+              "third" (third-width thumbnail, cropped to fill)
+       pdf  — OPTIONAL. Only use this if src is an IMAGE that should also
+              link out to a companion PDF (adds a "PDF" badge + button).
+              If the media itself IS a PDF, just set src to the .pdf path
+              directly — do not use this field, it's handled automatically.
+
+     TO EDIT CAPTIONS BY HAND: find the item below (Ctrl+F the filename)
+     and change the "cap" text. No other field needs to change.
+
+     TO REORDER BY HAND: cut and paste an item's { ... } block to a new
+     position within its array.
+
+     TO PUBLISH changes made in edit mode (the ✎ / ◀▶ / ⤢ buttons on the
+     live site): click "Copy layout code" in the edit toolbar, then paste
+     the result over this entire block (everything from "let LAYOUT = {"
+     down to the matching "};"), then commit and push.
      ===================================================================== */
   let LAYOUT = {
-      "ev-battery": [
-          {
-              "src": "images/ev-battery-poster.jpg",
-              "cap": "Research poster — External Direct Liquid Cooling of Lithium-ion Batteries",
-              "size": "full",
-              "pdf": "images/ev-battery-poster.pdf"
-          },
-          {
-              "src": "images/ev-battery-experimental-setup-photo.jpg",
-              "cap": "Battery cooling test bench: pressure valve, chiller, flow meter, battery tester, and DAQ",
-              "size": "full"
-          },
-          {
-              "src": "images/ev-battery-hollow-jacket-cad.png",
-              "cap": "CAD rendering of the hollow coolant jacket",
-              "size": "third"
-          },
-          {
-              "src": "images/ev-battery-helical-jacket-cad.png",
-              "cap": "CAD rendering of the helical coolant jacket",
-              "size": "third"
-          },
-          {
-              "src": "images/ev-battery-1c-discharge-profile.png",
-              "cap": "Current and voltage profile during 1C discharge",
-              "size": "half"
-          },
-          {
-              "src": "images/ev-battery-discharge-temperature-comparison.png",
-              "cap": "Battery temperature comparison across air, helical, and hollow cooling at 1.5C and 2C discharge",
-              "size": "half"
-          },
-          {
-              "src": "images/ev-battery-radial-temp-distribution.png",
-              "cap": "Simulated radial temperature distribution: air, hollow jacket, and helical jacket cooling",
-              "size": "third"
-          }
-      ],
-      "neecs": [
-          {
-              "src": "images/neecs-pipeline-diagram.svg",
-              "cap": "Acoustic vibration ML pipeline",
-              "size": "full"
-          },
-          {
-              "src": "images/neecs-test-rig-photo.png",
-              "cap": "Aluminum tube test rig with mounted sensors and bungee supports",
-              "size": "half"
-          },
-          {
-              "src": "images/neecs-apparatus-diagram.png",
-              "cap": "Tube apparatus: probe points, speaker, and bungee support points",
-              "size": "half"
-          },
-          {
-              "src": "images/neecs-fft-vs-standard-tube.png",
-              "cap": "Normalized FFT across six sensors vs. a standard unmodified tube",
-              "size": "half"
-          },
-          {
-              "src": "images/neecs-fft-vs-comsol-models.png",
-              "cap": "Normalized FFT vs. multiple COMSOL simulation models",
-              "size": "half"
-          }
-      ],
-      "offshore": [
-          {
-              "src": "images/offshore-mesh-diagram.png",
-              "cap": "CFD overset mesh: component mesh, background mesh, wall and overset boundaries",
-              "size": "half"
-          },
-          {
-              "src": "images/offshore-two-cylinder-mesh.png",
-              "cap": "Two-cylinder overset mesh with flow field visualization",
-              "size": "half"
-          },
-          {
-              "src": "images/offshore-cfd-simulation.mp4",
-              "cap": "CFD simulation",
-              "size": "third"
-          },
-          {
-              "src": "images/offshore-cylinder-motion.mp4",
-              "cap": "Cylinder motion",
-              "size": "third"
-          },
-          {
-              "src": "images/offshore-power-vs-flowspeed.png",
-              "cap": "Normalized power output vs. flow speed for 1–4 cylinder arrays",
-              "size": "full"
-          },
-          {
-              "src": "images/offshore-physical-test.mp4",
-              "cap": "Physical test",
-              "size": "third"
-          }
-      ],
-      "gallery": [
-          {
-              "src": "images/rover-cad-render.png",
-              "cap": "CAD render of a wheeled rover with a pincer gripper arm",
-              "size": "third"
-          },
-          {
-              "src": "images/rover-build-photo-1.jpg",
-              "cap": "Assembled rover with gripper arm",
-              "size": "third"
-          },
-          {
-              "src": "images/rover-build-photo-2.jpg",
-              "cap": "Close-up of the pincer gripper mechanism",
-              "size": "third"
-          },
-          {
-              "src": "images/battery-module-holder-cad.png",
-              "cap": "Battery module holder with hinged lid and cylindrical cell sockets",
-              "size": "half"
-          }
-      ],
-      "mechlab": [
-          {
-              "src": "images/mechlab-diagram.svg",
-              "cap": "Mech Lab pipeline architecture",
-              "size": "full"
-          }
-      ],
-      "internship-bot": [
-          {
-              "src": "images/internship-bot-diagram.svg",
-              "cap": "Internship Alert Bot architecture",
-              "size": "full"
-          }
-      ],
-      "scholarship": [
-          {
-              "src": "images/scholarship-system-diagram.svg",
-              "cap": "Scholarship application system pipeline",
-              "size": "full"
-          }
-      ]
+    "ev-battery": [
+      { src: "images/ev-battery-poster.pdf", cap: "Research poster — External Direct Liquid Cooling of Lithium-ion Batteries", size: "full" },
+      { src: "images/ev-battery-experimental-setup-photo.jpg", cap: "Battery cooling test bench: pressure valve, chiller, flow meter, battery tester, and DAQ", size: "half" },
+      { src: "images/ev-battery-discharge-temperature-comparison.png", cap: "Battery temperature comparison across air, helical, and hollow cooling at 1.5C and 2C discharge", size: "half" },
+      { src: "images/ev-battery-helical-jacket-cad.png", cap: "CAD rendering of the helical coolant jacket", size: "third" },
+      { src: "images/ev-battery-hollow-jacket-cad.png", cap: "CAD rendering of the hollow coolant jacket", size: "third" },
+      { src: "images/ev-battery-1c-discharge-profile.png", cap: "Current and voltage profile during 1C discharge", size: "third" },
+      { src: "images/ev-battery-radial-temp-distribution.png", cap: "Simulated radial temperature distribution: air, hollow jacket, and helical jacket cooling", size: "full" }
+    ],
+    "neecs": [
+      { src: "images/neecs-pipeline-diagram.svg", cap: "Acoustic vibration ML pipeline", size: "full" },
+      { src: "images/neecs-test-rig-photo.png", cap: "Aluminum tube test rig with mounted sensors and bungee supports", size: "half" },
+      { src: "images/neecs-apparatus-diagram.png", cap: "Tube apparatus: probe points, speaker, and bungee support points", size: "half" },
+      { src: "images/neecs-fft-vs-standard-tube.png", cap: "Normalized FFT across six sensors vs. a standard unmodified tube", size: "half" },
+      { src: "images/neecs-fft-vs-comsol-models.png", cap: "Normalized FFT vs. multiple COMSOL simulation models", size: "half" }
+    ],
+    "offshore": [
+      { src: "images/offshore-mesh-diagram.png", cap: "CFD overset mesh: component mesh, background mesh, wall and overset boundaries", size: "half" },
+      { src: "images/offshore-two-cylinder-mesh.png", cap: "Two-cylinder overset mesh with flow field visualization", size: "half" },
+      { src: "images/offshore-cfd-simulation.mp4", cap: "CFD simulation", size: "third" },
+      { src: "images/offshore-cylinder-motion.mp4", cap: "Cylinder motion", size: "third" },
+      { src: "images/offshore-power-vs-flowspeed.png", cap: "Normalized power output vs. flow speed for 1–4 cylinder arrays", size: "full" },
+      { src: "images/offshore-physical-test.mp4", cap: "Physical test", size: "third" }
+    ],
+    "gallery": [
+      { src: "images/rover-cad-render.png", cap: "CAD render of a wheeled rover with a pincer gripper arm", size: "third" },
+      { src: "images/rover-build-photo-1.jpg", cap: "Assembled rover with gripper arm", size: "third" },
+      { src: "images/rover-build-photo-2.jpg", cap: "Close-up of the pincer gripper mechanism", size: "third" },
+      { src: "images/battery-module-holder-cad.png", cap: "Battery module holder with hinged lid and cylindrical cell sockets", size: "half" }
+    ],
+    "mechlab": [
+      { src: "images/mechlab-diagram.svg", cap: "Mech Lab pipeline architecture", size: "full" }
+    ],
+    "internship-bot": [
+      { src: "images/internship-bot-diagram.svg", cap: "Internship Alert Bot architecture", size: "full" }
+    ],
+    "scholarship": [
+      { src: "images/scholarship-system-diagram.svg", cap: "Scholarship application system pipeline", size: "full" }
+    ]
   };
 
   /* Files available in the "Add media" picker. Add new filenames here (or
      just type the path in the picker) after uploading them to images/. */
   const KNOWN_FILES = [
-    "images/ev-battery-poster.jpg",
     "images/ev-battery-poster.pdf",
     "images/ev-battery-manuscript.pdf",
     "images/ev-battery-experimental-setup-photo.jpg",
@@ -1329,7 +1321,19 @@
       cell.setAttribute("role", "button");
       cell.setAttribute("aria-label", "Open " + (item.cap || item.src) + " full size");
 
-      if (isVideo(item.src)) {
+      if (isPdf(item.src)) {
+        /* the media itself is a PDF (e.g. a poster) — browsers can't show
+           a PDF through <img>, so render a labeled stand-in tile instead */
+        cell.classList.add("pdf-tile");
+        const icon = document.createElement("div");
+        icon.className = "pdf-icon";
+        icon.textContent = "PDF";
+        cell.appendChild(icon);
+        const name = document.createElement("div");
+        name.className = "pdf-name";
+        name.textContent = item.cap || item.src.split("/").pop();
+        cell.appendChild(name);
+      } else if (isVideo(item.src)) {
         const v = document.createElement("video");
         v.src = item.src + "#t=0.1";      // seek slightly in so a frame shows as the thumbnail
         v.muted = true;
@@ -1349,7 +1353,9 @@
         cell.appendChild(img);
       }
 
-      if (item.pdf) {
+      /* legacy support: an item can also carry a separate .pdf field
+         (e.g. an image thumbnail that links out to a companion PDF) */
+      if (item.pdf && !isPdf(item.src)) {
         const pb = document.createElement("div");
         pb.className = "pdf-badge";
         pb.textContent = "PDF";
@@ -1358,7 +1364,7 @@
 
       const hint = document.createElement("div");
       hint.className = "zoom-hint";
-      hint.textContent = isVideo(item.src) ? "Play ⤢" : "Expand ⤢";
+      hint.textContent = isPdf(item.src) ? "Open ⤢" : isVideo(item.src) ? "Play ⤢" : "Expand ⤢";
       cell.appendChild(hint);
 
       /* edit-mode controls */
@@ -1475,11 +1481,8 @@
     if (!path) return;
     const key = pickerTarget;
     if (!LAYOUT[key]) LAYOUT[key] = [];
-    if (isPdf(path)) {
-      alert("PDFs attach to an image instead of showing directly in the grid — add the image first, then link the PDF by editing that item's pdf field in the exported layout code.");
-      return;
-    }
-    LAYOUT[key].push({ src: path, cap: "", size: "half" });
+    /* PDFs are added directly as their own tile now — no image stand-in needed */
+    LAYOUT[key].push({ src: path, cap: "", size: isPdf(path) ? "third" : "half" });
     closePicker();
     saveDraft();
     renderAll();
@@ -1526,7 +1529,12 @@
     const stage = document.getElementById("lb-stage");
     stage.innerHTML = "";
 
-    if (isVideo(item.src)) {
+    if (isPdf(item.src)) {
+      const frame = document.createElement("iframe");
+      frame.src = item.src;
+      frame.title = item.cap || "PDF viewer";
+      stage.appendChild(frame);
+    } else if (isVideo(item.src)) {
       const v = document.createElement("video");
       v.src = item.src;
       v.controls = true;
@@ -1542,13 +1550,16 @@
 
     const capEl = document.getElementById("lb-caption");
     capEl.textContent = item.cap || "";
-    if (item.pdf) {
+    /* "Open in new tab" link — shown for the PDF's own src, or for a
+       legacy companion .pdf field on an image item */
+    const pdfTarget = isPdf(item.src) ? item.src : item.pdf;
+    if (pdfTarget) {
       const a = document.createElement("a");
-      a.href = item.pdf;
+      a.href = pdfTarget;
       a.target = "_blank";
       a.rel = "noopener";
       a.className = "lb-pdf-link";
-      a.textContent = "Open full PDF ↗";
+      a.textContent = isPdf(item.src) ? "Open in new tab ↗" : "Open full PDF ↗";
       capEl.appendChild(document.createElement("br"));
       capEl.appendChild(a);
     }
